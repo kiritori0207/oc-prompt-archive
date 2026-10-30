@@ -1,0 +1,303 @@
+
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Characters | LUMIÈRE ARCHIVE</title>
+<style>
+*{box-sizing:border-box}
+body{
+  margin:0;
+  background:#f5f7fa;
+  color:#75839a;
+  font-family:Georgia,"Times New Roman",serif;
+}
+a{color:inherit;text-decoration:none}
+button{font:inherit}
+.header{
+  padding:22px 7%;
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  border-bottom:1px solid #e4e9f0;
+  background:#ffffffd9;
+}
+.logo{
+  font-size:17px;
+  letter-spacing:2px;
+  color:#788ba5;
+}
+.back{
+  font:10px Arial,sans-serif;
+  letter-spacing:1px;
+  color:#8c9bb0;
+}
+main{
+  max-width:1120px;
+  margin:auto;
+  padding:60px 24px 90px;
+}
+.intro{text-align:center;margin-bottom:42px}
+.eyebrow{
+  font:10px Arial,sans-serif;
+  letter-spacing:4px;
+  color:#a8b7cb;
+}
+h1{
+  font-size:clamp(36px,6vw,54px);
+  font-weight:400;
+  color:#8293ad;
+  margin:18px 0 12px;
+}
+.description{
+  font:12px/2 Arial,sans-serif;
+  color:#9ba7b8;
+}
+.toolbar{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-bottom:22px;
+}
+.count{
+  font:10px Arial,sans-serif;
+  letter-spacing:2px;
+  color:#a0adbf;
+}
+.search{
+  width:min(260px,100%);
+  border:1px solid #dfe6ef;
+  border-radius:30px;
+  padding:11px 16px;
+  outline:none;
+  background:#fff;
+  color:#75839a;
+  font:12px Arial,sans-serif;
+}
+.search:focus{border-color:#a9bad0}
+.grid{
+  display:grid;
+  grid-template-columns:repeat(3,minmax(0,1fr));
+  gap:22px;
+}
+.character{
+  display:block;
+  padding:0;
+  border:1px solid #e3e8ef;
+  background:#fff;
+  text-align:left;
+  color:#75839a;
+  transition:transform .2s,box-shadow .2s;
+}
+.character:hover{
+  transform:translateY(-4px);
+  box-shadow:0 12px 28px #a8b7cb20;
+}
+.portrait{
+  position:relative;
+  aspect-ratio:4/5;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  overflow:hidden;
+  background:linear-gradient(155deg,#e4ebf3,#f7f4f6 60%,#e8e9ef);
+}
+.character:nth-child(3n+2) .portrait{
+  background:linear-gradient(155deg,#eee5ed,#f8f4f5 60%,#e7eaf1);
+}
+.character:nth-child(3n) .portrait{
+  background:linear-gradient(155deg,#e3e9eb,#f7f6f2 60%,#e8e8ef);
+}
+.portrait-mark{
+  font-size:36px;
+  color:#ffffffd9;
+  text-shadow:0 2px 20px #aab7c9;
+}
+.portrait-label{
+  position:absolute;
+  bottom:12px;
+  left:14px;
+  font:9px Arial,sans-serif;
+  letter-spacing:2px;
+  color:#fff;
+}
+.info{padding:18px 17px 20px}
+.number{
+  font:9px Arial,sans-serif;
+  letter-spacing:2px;
+  color:#aab7c8;
+}
+.name{
+  font-size:22px;
+  font-weight:400;
+  margin:8px 0;
+  color:#7889a2;
+}
+.name small{
+  font:10px Arial,sans-serif;
+  color:#a1adbf;
+}
+.note{
+  min-height:32px;
+  margin:0 0 13px;
+  font:11px/1.7 Arial,sans-serif;
+  color:#9ba7b8;
+}
+.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tag{
+  padding:5px 8px;
+  background:#f1f4f8;
+  color:#94a3b7;
+  font:9px Arial,sans-serif;
+}
+.add{
+  display:flex;
+  min-height:100%;
+  align-items:center;
+  justify-content:center;
+  flex-direction:column;
+  gap:12px;
+  padding:24px;
+  border:1px dashed #cbd5e2;
+  background:#ffffff70;
+  color:#98a8bd;
+  cursor:pointer;
+}
+.add-symbol{font-size:34px;font-weight:200}
+.add-text{font:10px Arial,sans-serif;letter-spacing:2px}
+.add-note{font:10px Arial,sans-serif;color:#aeb9c8}
+.empty{
+  display:none;
+  grid-column:1/-1;
+  text-align:center;
+  padding:45px 10px;
+  color:#9ba7b8;
+  font-size:13px;
+}
+footer{
+  text-align:center;
+  padding:25px;
+  border-top:1px solid #e4e9f0;
+  font:9px Arial,sans-serif;
+  letter-spacing:2px;
+  color:#a6b2c2;
+}
+@media(max-width:700px){
+  main{padding:42px 16px 60px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+  .info{padding:14px 12px 16px}
+  .name{font-size:19px}
+  .header{padding:18px 5%}
+}
+@media(max-width:380px){
+  .grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<header class="header">
+  <a class="logo" href="index.html">LUMIÈRE ARCHIVE</a>
+  <a class="back" href="index.html">← BACK TO HOME</a>
+</header>
+
+<main>
+  <section class="intro">
+    <div class="eyebrow">✧ &nbsp; YOUR LITTLE UNIVERSE &nbsp; ✧</div>
+    <h1>Characters</h1>
+    <p class="description">
+      ひとりひとりの、物語を集めて。<br>
+      あなたの大切なキャラクターたちのアーカイブ。
+    </p>
+  </section>
+
+  <div class="toolbar">
+    <div class="count">CHARACTER COLLECTION</div>
+    <input class="search" id="search" type="search"
+      placeholder="キャラクターを検索…">
+  </div>
+
+  <section class="grid" id="grid">
+    <button class="character" data-name="名前未設定 01">
+      <div class="portrait">
+        <span class="portrait-mark">✧</span>
+        <span class="portrait-label">CHARACTER 01</span>
+      </div>
+      <div class="info">
+        <div class="number">NO. 001</div>
+        <h2 class="name">名前未設定 <small>—</small></h2>
+        <p class="note">キャラクターの紹介文をここに。</p>
+        <div class="tags"><span class="tag">TAG</span></div>
+      </div>
+    </button>
+
+    <button class="character" data-name="名前未設定 02">
+      <div class="portrait">
+        <span class="portrait-mark">✧</span>
+        <span class="portrait-label">CHARACTER 02</span>
+      </div>
+      <div class="info">
+        <div class="number">NO. 002</div>
+        <h2 class="name">名前未設定 <small>—</small></h2>
+        <p class="note">キャラクターの紹介文をここに。</p>
+        <div class="tags"><span class="tag">TAG</span></div>
+      </div>
+    </button>
+
+    <button class="character" data-name="名前未設定 03">
+      <div class="portrait">
+        <span class="portrait-mark">✧</span>
+        <span class="portrait-label">CHARACTER 03</span>
+      </div>
+      <div class="info">
+        <div class="number">NO. 003</div>
+        <h2 class="name">名前未設定 <small>—</small></h2>
+        <p class="note">キャラクターの紹介文をここに。</p>
+        <div class="tags"><span class="tag">TAG</span></div>
+      </div>
+    </button>
+
+    <button class="add" id="addCard">
+      <span class="add-symbol">＋</span>
+      <span class="add-text">NEW CHARACTER</span>
+      <span class="add-note">キャラクターを追加する</span>
+    </button>
+
+    <p class="empty" id="empty">該当するキャラクターが見つからないよ。</p>
+  </section>
+</main>
+
+<footer>MADE OF DREAMS & LITTLE DETAILS　✧</footer>
+
+<script>
+const search=document.getElementById('search');
+const cards=[...document.querySelectorAll('.character')];
+const empty=document.getElementById('empty');
+
+function filterCards(){
+  const q=search.value.trim().toLowerCase();
+  let visible=0;
+  cards.forEach(card=>{
+    const match=card.dataset.name.toLowerCase().includes(q)
+      ||card.innerText.toLowerCase().includes(q);
+    card.style.display=match?'block':'none';
+    if(match)visible++;
+  });
+  empty.style.display=visible?'none':'block';
+}
+search.addEventListener('input',filterCards);
+
+document.querySelectorAll('.character').forEach(card=>{
+  card.addEventListener('click',()=>{
+    alert('このカードの詳細ページは、次のステップで作れるよ！');
+  });
+});
+
+document.getElementById('addCard').addEventListener('click',()=>{
+  alert('まずはカードを複製して、名前や紹介文を編集してみよう！');
+});
+</script>
+</body>
+</html>
