@@ -4,199 +4,382 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Characters | LUMIÈRE ARCHIVE</title>
+<title>Characters — LUMIÈRE ARCHIVE</title>
+
 <style>
+:root{
+  --bg:#171923;
+  --charcoal:#202330;
+  --film:#303442;
+  --cool-gray:#a8b2c5;
+  --white:#edf2fb;
+  --pink:#ff78bd;
+  --cyan:#71dcf5;
+  --muted:#818ba1;
+}
 *{box-sizing:border-box}
+html{scroll-behavior:smooth}
 body{
   margin:0;
-  background:#f5f7fa;
-  color:#75839a;
+  background:var(--bg);
+  color:var(--white);
   font-family:Georgia,"Times New Roman",serif;
+  overflow-x:hidden;
+}
+body:before{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:10;
+  pointer-events:none;
+  opacity:.13;
+  background-image:repeating-linear-gradient(
+    0deg,transparent 0,transparent 3px,
+    #b9c8e0 4px,transparent 5px
+  );
+  mix-blend-mode:screen;
+}
+body:after{
+  content:"";
+  position:fixed;
+  inset:0;
+  z-index:10;
+  pointer-events:none;
+  opacity:.16;
+  background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.5'/%3E%3C/svg%3E");
 }
 a{color:inherit;text-decoration:none}
-button{font:inherit}
+button,input{font:inherit}
+button{color:inherit}
+
 .header{
-  padding:22px 7%;
+  position:relative;
+  z-index:11;
   display:flex;
   justify-content:space-between;
   align-items:center;
-  border-bottom:1px solid #e4e9f0;
-  background:#ffffffd9;
+  padding:23px 6%;
+  border-bottom:1px solid #a8b6d01c;
+  background:#191b27e8;
 }
 .logo{
-  font-size:17px;
-  letter-spacing:2px;
-  color:#788ba5;
+  font-size:15px;
+  letter-spacing:2.5px;
+  color:#d9e3f4;
 }
 .back{
   font:10px Arial,sans-serif;
-  letter-spacing:1px;
-  color:#8c9bb0;
+  letter-spacing:1.5px;
+  color:var(--cool-gray);
 }
+.back:hover{color:var(--cyan)}
+
 main{
-  max-width:1120px;
+  width:min(1120px,100%);
   margin:auto;
-  padding:60px 24px 90px;
+  padding:65px 28px 100px;
 }
-.intro{text-align:center;margin-bottom:42px}
+.intro{text-align:center;margin-bottom:56px}
 .eyebrow{
-  font:10px Arial,sans-serif;
-  letter-spacing:4px;
-  color:#a8b7cb;
+  color:var(--cyan);
+  font:9px Arial,sans-serif;
+  letter-spacing:5px;
 }
 h1{
-  font-size:clamp(36px,6vw,54px);
+  margin:22px 0 14px;
+  font-size:clamp(42px,7vw,70px);
   font-weight:400;
-  color:#8293ad;
-  margin:18px 0 12px;
+  letter-spacing:-1px;
+  color:#e6ecf8;
+  text-shadow:0 0 35px #87c9f522;
 }
-.description{
-  font:12px/2 Arial,sans-serif;
-  color:#9ba7b8;
+.subtitle{
+  margin:0;
+  color:#9aa6bd;
+  font:11px/2 Arial,sans-serif;
+  letter-spacing:1px;
 }
+.intro-line{
+  width:50px;
+  height:1px;
+  margin:26px auto 0;
+  background:linear-gradient(90deg,var(--pink),var(--cyan));
+}
+
 .toolbar{
   display:flex;
   justify-content:space-between;
   align-items:center;
-  gap:12px;
+  gap:18px;
   flex-wrap:wrap;
-  margin-bottom:22px;
+  margin-bottom:26px;
 }
-.count{
-  font:10px Arial,sans-serif;
-  letter-spacing:2px;
-  color:#a0adbf;
+.collection-label{
+  font:9px Arial,sans-serif;
+  letter-spacing:3px;
+  color:#aab5ca;
 }
+.collection-label span{color:var(--pink)}
 .search{
-  width:min(260px,100%);
-  border:1px solid #dfe6ef;
-  border-radius:30px;
-  padding:11px 16px;
+  width:min(250px,100%);
+  border:1px solid #8e9ab52e;
+  background:#242735;
+  color:var(--white);
+  padding:11px 15px;
   outline:none;
-  background:#fff;
-  color:#75839a;
-  font:12px Arial,sans-serif;
+  font:11px Arial,sans-serif;
+  border-radius:2px;
 }
-.search:focus{border-color:#a9bad0}
+.search::placeholder{color:#78839b}
+.search:focus{border-color:#71dcf580}
+
+/* フィルムの外枠 */
+.film-roll{
+  position:relative;
+  padding:24px 15px;
+  background:linear-gradient(110deg,#282c3a,#202330 45%,#292d3b);
+  border:1px solid #a7b7d020;
+  box-shadow:0 20px 60px #080a121f;
+}
+
+/* 上下のフィルム穴 */
+.film-roll:before,
+.film-roll:after{
+  content:"";
+  position:absolute;
+  left:10px;
+  right:10px;
+  height:7px;
+  pointer-events:none;
+  background:repeating-linear-gradient(
+    90deg,
+    #b8c2d4 0px,
+    #b8c2d4 13px,
+    transparent 13px,
+    transparent 25px
+  );
+  opacity:.68;
+}
+.film-roll:before{top:8px}
+.film-roll:after{bottom:8px}
+
 .grid{
   display:grid;
   grid-template-columns:repeat(3,minmax(0,1fr));
-  gap:22px;
+  gap:16px;
 }
 .character{
-  display:block;
-  padding:0;
-  border:1px solid #e3e8ef;
-  background:#fff;
+  position:relative;
+  min-width:0;
+  padding:7px;
+  border:1px solid #a9b6cd29;
+  background:#191c28;
   text-align:left;
-  color:#75839a;
-  transition:transform .2s,box-shadow .2s;
+  cursor:pointer;
+  transition:border-color .25s,transform .25s;
 }
 .character:hover{
   transform:translateY(-4px);
-  box-shadow:0 12px 28px #a8b7cb20;
+  border-color:#71dcf5a0;
 }
-.portrait{
+.character:nth-child(even):hover{
+  border-color:#ff78bd9c;
+}
+
+/* 写真部分 */
+.photo{
   position:relative;
   aspect-ratio:4/5;
+  overflow:hidden;
   display:flex;
   align-items:center;
   justify-content:center;
-  overflow:hidden;
-  background:linear-gradient(155deg,#e4ebf3,#f7f4f6 60%,#e8e9ef);
+  background:
+    radial-gradient(ellipse at 50% 35%,#53617b 0%,transparent 48%),
+    linear-gradient(145deg,#353b4d,#252938 65%,#303343);
 }
-.character:nth-child(3n+2) .portrait{
-  background:linear-gradient(155deg,#eee5ed,#f8f4f5 60%,#e7eaf1);
+.character:nth-child(3n+2) .photo{
+  background:
+    radial-gradient(ellipse at 60% 35%,#66475f 0%,transparent 48%),
+    linear-gradient(145deg,#383243,#252735 70%,#333343);
 }
-.character:nth-child(3n) .portrait{
-  background:linear-gradient(155deg,#e3e9eb,#f7f6f2 60%,#e8e8ef);
+.character:nth-child(3n) .photo{
+  background:
+    radial-gradient(ellipse at 40% 40%,#3a6475 0%,transparent 48%),
+    linear-gradient(145deg,#303c4b,#222735 70%,#303444);
 }
-.portrait-mark{
-  font-size:36px;
-  color:#ffffffd9;
-  text-shadow:0 2px 20px #aab7c9;
-}
-.portrait-label{
+.photo:before{
+  content:"";
   position:absolute;
-  bottom:12px;
-  left:14px;
-  font:9px Arial,sans-serif;
-  letter-spacing:2px;
-  color:#fff;
+  inset:0;
+  pointer-events:none;
+  background:
+    linear-gradient(115deg,transparent 20%,#ffffff09 45%,transparent 60%),
+    repeating-linear-gradient(0deg,transparent 0 3px,#dce7ff08 4px);
 }
-.info{padding:18px 17px 20px}
-.number{
-  font:9px Arial,sans-serif;
-  letter-spacing:2px;
-  color:#aab7c8;
+.photo:after{
+  content:"";
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  opacity:.6;
+  background:linear-gradient(
+    180deg,transparent 50%,#1517226b 100%
+  );
 }
-.name{
-  font-size:22px;
+.photo-symbol{
+  position:relative;
+  z-index:1;
+  color:#dce7f5;
+  font-size:35px;
   font-weight:400;
-  margin:8px 0;
-  color:#7889a2;
+  text-shadow:0 0 20px #8fcef9a0;
 }
-.name small{
-  font:10px Arial,sans-serif;
-  color:#a1adbf;
+.character:nth-child(even) .photo-symbol{
+  color:#ffb1d9;
+  text-shadow:0 0 20px #ff78bd77;
 }
-.note{
-  min-height:32px;
+.photo-number{
+  position:absolute;
+  z-index:2;
+  bottom:9px;
+  left:10px;
+  font:8px Arial,sans-serif;
+  letter-spacing:2px;
+  color:#e0e8f5b8;
+}
+.photo-index{
+  position:absolute;
+  z-index:2;
+  top:9px;
+  right:10px;
+  font:8px Arial,sans-serif;
+  color:#d9e6f4a6;
+}
+
+/* 名前とキャラクター情報 */
+.info{padding:15px 8px 12px}
+.index{
+  color:var(--cyan);
+  font:8px Arial,sans-serif;
+  letter-spacing:2px;
+}
+.character:nth-child(even) .index{color:var(--pink)}
+.name{
+  margin:8px 0 7px;
+  font-size:21px;
+  font-weight:400;
+  color:#e5ebf6;
+  overflow-wrap:anywhere;
+}
+.description{
   margin:0 0 13px;
-  font:11px/1.7 Arial,sans-serif;
-  color:#9ba7b8;
+  color:#9ca7bc;
+  font:10px/1.8 Arial,sans-serif;
 }
-.tags{display:flex;gap:6px;flex-wrap:wrap}
+.tags{display:flex;gap:5px;flex-wrap:wrap}
 .tag{
-  padding:5px 8px;
-  background:#f1f4f8;
-  color:#94a3b7;
-  font:9px Arial,sans-serif;
+  padding:4px 7px;
+  border:1px solid #94a6c326;
+  color:#aab8ce;
+  font:8px Arial,sans-serif;
+  letter-spacing:.5px;
 }
+.character:nth-child(even) .tag:first-child{
+  border-color:#ff78bd3b;
+  color:#ffacd5;
+}
+.character:nth-child(odd) .tag:first-child{
+  border-color:#71dcf53b;
+  color:#8fe4f5;
+}
+.card-footer{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-top:15px;
+  padding-top:10px;
+  border-top:1px solid #a6b6ce1c;
+  color:#7f8ba2;
+  font:8px Arial,sans-serif;
+  letter-spacing:1px;
+}
+.arrow{color:var(--cyan);font-size:13px}
+
+/* 追加カード */
 .add{
   display:flex;
-  min-height:100%;
+  min-height:250px;
   align-items:center;
   justify-content:center;
   flex-direction:column;
-  gap:12px;
-  padding:24px;
-  border:1px dashed #cbd5e2;
-  background:#ffffff70;
-  color:#98a8bd;
+  gap:13px;
+  padding:20px;
+  border:1px dashed #91a1bb55;
+  background:#242735a0;
   cursor:pointer;
+  transition:background .2s,border-color .2s;
 }
-.add-symbol{font-size:34px;font-weight:200}
-.add-text{font:10px Arial,sans-serif;letter-spacing:2px}
-.add-note{font:10px Arial,sans-serif;color:#aeb9c8}
+.add:hover{
+  background:#2b3040;
+  border-color:var(--pink);
+}
+.add-symbol{
+  font-size:32px;
+  font-weight:200;
+  color:var(--cyan);
+}
+.add-text{
+  font:9px Arial,sans-serif;
+  letter-spacing:2px;
+}
+.add-note{
+  font:10px Arial,sans-serif;
+  color:#8793a9;
+}
 .empty{
   display:none;
   grid-column:1/-1;
+  padding:40px 10px;
+  color:#9aa7bc;
   text-align:center;
-  padding:45px 10px;
-  color:#9ba7b8;
-  font-size:13px;
+  font:12px Arial,sans-serif;
+}
+.bottom-note{
+  margin-top:30px;
+  text-align:center;
+  color:#748097;
+  font:8px/2 Arial,sans-serif;
+  letter-spacing:2px;
 }
 footer{
+  padding:25px 15px;
+  border-top:1px solid #a8b6d01c;
   text-align:center;
-  padding:25px;
-  border-top:1px solid #e4e9f0;
-  font:9px Arial,sans-serif;
+  color:#818ca2;
+  font:8px Arial,sans-serif;
   letter-spacing:2px;
-  color:#a6b2c2;
 }
+
 @media(max-width:700px){
-  main{padding:42px 16px 60px}
-  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
-  .info{padding:14px 12px 16px}
-  .name{font-size:19px}
-  .header{padding:18px 5%}
+  .header{padding:20px 5%}
+  .logo{font-size:12px;letter-spacing:1.5px}
+  main{padding:45px 15px 70px}
+  .intro{margin-bottom:38px}
+  .grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+  .film-roll{padding:22px 9px}
+  .character{padding:5px}
+  .info{padding:12px 6px 9px}
+  .name{font-size:18px}
+  .description{font-size:9px}
+  .add{min-height:210px;padding:12px}
 }
-@media(max-width:380px){
+@media(max-width:360px){
   .grid{grid-template-columns:1fr}
 }
 </style>
 </head>
+
 <body>
 <header class="header">
   <a class="logo" href="index.html">LUMIÈRE ARCHIVE</a>
@@ -205,71 +388,113 @@ footer{
 
 <main>
   <section class="intro">
-    <div class="eyebrow">✧ &nbsp; YOUR LITTLE UNIVERSE &nbsp; ✧</div>
+    <div class="eyebrow">✧ &nbsp; CHARACTER ARCHIVE &nbsp; ✧</div>
     <h1>Characters</h1>
-    <p class="description">
+    <p class="subtitle">
       ひとりひとりの、物語を集めて。<br>
-      あなたの大切なキャラクターたちのアーカイブ。
+      A collection of little universes.
     </p>
+    <div class="intro-line"></div>
   </section>
 
   <div class="toolbar">
-    <div class="count">CHARACTER COLLECTION</div>
-    <input class="search" id="search" type="search"
-      placeholder="キャラクターを検索…">
+    <div class="collection-label">
+      FILM COLLECTION &nbsp; <span>✧</span>
+    </div>
+    <input
+      class="search"
+      id="search"
+      type="search"
+      placeholder="キャラクターを検索…"
+      aria-label="キャラクターを検索"
+    >
   </div>
 
-  <section class="grid" id="grid">
-    <button class="character" data-name="名前未設定 01">
-      <div class="portrait">
-        <span class="portrait-mark">✧</span>
-        <span class="portrait-label">CHARACTER 01</span>
-      </div>
-      <div class="info">
-        <div class="number">NO. 001</div>
-        <h2 class="name">名前未設定 <small>—</small></h2>
-        <p class="note">キャラクターの紹介文をここに。</p>
-        <div class="tags"><span class="tag">TAG</span></div>
-      </div>
-    </button>
+  <section class="film-roll">
+    <div class="grid" id="grid">
 
-    <button class="character" data-name="名前未設定 02">
-      <div class="portrait">
-        <span class="portrait-mark">✧</span>
-        <span class="portrait-label">CHARACTER 02</span>
-      </div>
-      <div class="info">
-        <div class="number">NO. 002</div>
-        <h2 class="name">名前未設定 <small>—</small></h2>
-        <p class="note">キャラクターの紹介文をここに。</p>
-        <div class="tags"><span class="tag">TAG</span></div>
-      </div>
-    </button>
+      <button class="character" data-name="名前未設定 001">
+        <div class="photo">
+          <span class="photo-symbol">✧</span>
+          <span class="photo-number">LUMIÈRE · 001</span>
+          <span class="photo-index">01A</span>
+        </div>
+        <div class="info">
+          <div class="index">FRAME 001</div>
+          <h2 class="name">名前未設定</h2>
+          <p class="description">キャラクターの紹介文。</p>
+          <div class="tags">
+            <span class="tag">ORIGINAL</span>
+            <span class="tag">OC</span>
+          </div>
+          <div class="card-footer">
+            <span>CHARACTER FILE</span>
+            <span class="arrow">↗</span>
+          </div>
+        </div>
+      </button>
 
-    <button class="character" data-name="名前未設定 03">
-      <div class="portrait">
-        <span class="portrait-mark">✧</span>
-        <span class="portrait-label">CHARACTER 03</span>
-      </div>
-      <div class="info">
-        <div class="number">NO. 003</div>
-        <h2 class="name">名前未設定 <small>—</small></h2>
-        <p class="note">キャラクターの紹介文をここに。</p>
-        <div class="tags"><span class="tag">TAG</span></div>
-      </div>
-    </button>
+      <button class="character" data-name="名前未設定 002">
+        <div class="photo">
+          <span class="photo-symbol">✧</span>
+          <span class="photo-number">LUMIÈRE · 002</span>
+          <span class="photo-index">02B</span>
+        </div>
+        <div class="info">
+          <div class="index">FRAME 002</div>
+          <h2 class="name">名前未設定</h2>
+          <p class="description">キャラクターの紹介文。</p>
+          <div class="tags">
+            <span class="tag">ORIGINAL</span>
+            <span class="tag">OC</span>
+          </div>
+          <div class="card-footer">
+            <span>CHARACTER FILE</span>
+            <span class="arrow">↗</span>
+          </div>
+        </div>
+      </button>
 
-    <button class="add" id="addCard">
-      <span class="add-symbol">＋</span>
-      <span class="add-text">NEW CHARACTER</span>
-      <span class="add-note">キャラクターを追加する</span>
-    </button>
+      <button class="character" data-name="名前未設定 003">
+        <div class="photo">
+          <span class="photo-symbol">✧</span>
+          <span class="photo-number">LUMIÈRE · 003</span>
+          <span class="photo-index">03C</span>
+        </div>
+        <div class="info">
+          <div class="index">FRAME 003</div>
+          <h2 class="name">名前未設定</h2>
+          <p class="description">キャラクターの紹介文。</p>
+          <div class="tags">
+            <span class="tag">ORIGINAL</span>
+            <span class="tag">OC</span>
+          </div>
+          <div class="card-footer">
+            <span>CHARACTER FILE</span>
+            <span class="arrow">↗</span>
+          </div>
+        </div>
+      </button>
 
-    <p class="empty" id="empty">該当するキャラクターが見つからないよ。</p>
+      <button class="add" id="addCard">
+        <span class="add-symbol">＋</span>
+        <span class="add-text">NEW FRAME</span>
+        <span class="add-note">新しいキャラクター</span>
+      </button>
+
+      <p class="empty" id="empty">
+        該当するキャラクターが見つからないよ。
+      </p>
+    </div>
   </section>
+
+  <div class="bottom-note">
+    EVERY CHARACTER HAS A STORY<br>
+    KEEP YOUR LITTLE UNIVERSE SAFE
+  </div>
 </main>
 
-<footer>MADE OF DREAMS & LITTLE DETAILS　✧</footer>
+<footer>✧ &nbsp; LUMIÈRE ARCHIVE &nbsp; · &nbsp; FILM NO. 001 &nbsp; ✧</footer>
 
 <script>
 const search=document.getElementById('search');
@@ -279,24 +504,28 @@ const empty=document.getElementById('empty');
 function filterCards(){
   const q=search.value.trim().toLowerCase();
   let visible=0;
+
   cards.forEach(card=>{
     const match=card.dataset.name.toLowerCase().includes(q)
       ||card.innerText.toLowerCase().includes(q);
+
     card.style.display=match?'block':'none';
     if(match)visible++;
   });
+
   empty.style.display=visible?'none':'block';
 }
+
 search.addEventListener('input',filterCards);
 
-document.querySelectorAll('.character').forEach(card=>{
+cards.forEach(card=>{
   card.addEventListener('click',()=>{
-    alert('このカードの詳細ページは、次のステップで作れるよ！');
+    alert('キャラクター詳細ページは次のステップで作ろう！');
   });
 });
 
 document.getElementById('addCard').addEventListener('click',()=>{
-  alert('まずはカードを複製して、名前や紹介文を編集してみよう！');
+  alert('次は画像・名前・設定を登録できる機能を追加しよう！');
 });
 </script>
 </body>
