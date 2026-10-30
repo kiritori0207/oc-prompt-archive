@@ -4,302 +4,886 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Characters</title>
+  <meta name="theme-color" content="#f2f4f7">
+  <title>Characters | LUMIÈRE ARCHIVE</title>
 
   <style>
     :root {
-      --page-bg: #f2f4f7;
-      --film: #303642;
-      --film-line: #454d5b;
-      --white: #f8f9fc;
+      --paper: #f2f4f7;
+      --film: #362629;
+      --film-dark: #292022;
+      --hole: #d1d0ce;
+      --ink: #343039;
+      --muted: #85818a;
+      --pink: #e8a8c9;
+      --cyan: #9adce6;
     }
 
     * {
       box-sizing: border-box;
     }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      padding: 36px 24px 60px;
-      background: var(--page-bg);
-      font-family: sans-serif;
+    html {
+      scroll-behavior: smooth;
     }
 
-    /* フィルムを並べるエリア */
-    .film-gallery {
-      width: min(100%, 1080px);
+    body {
+      margin: 0;
+      background: var(--paper);
+      color: var(--ink);
+      font-family:
+        "Helvetica Neue",
+        "Hiragino Kaku Gothic ProN",
+        "Yu Gothic",
+        sans-serif;
+    }
+
+    button,
+    input {
+      font: inherit;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Header */
+
+    .site-header {
+      max-width: 1200px;
       margin: 0 auto;
+      padding: 30px 6% 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 20px;
+      border-bottom: 1px solid #d9dce3;
+    }
+
+    .logo {
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(18px, 3vw, 25px);
+      letter-spacing: .12em;
+      font-weight: 400;
+    }
+
+    .home-link {
+      font-size: 11px;
+      letter-spacing: .14em;
+      color: #777782;
+      transition: color .2s;
+      white-space: nowrap;
+    }
+
+    .home-link:hover {
+      color: #bd779d;
+    }
+
+    /* Intro */
+
+    .intro {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 65px 6% 35px;
+    }
+
+    .eyebrow {
+      margin: 0 0 12px;
+      color: #b27d9a;
+      font-size: 10px;
+      letter-spacing: .28em;
+      text-transform: uppercase;
+    }
+
+    .intro h1 {
+      margin: 0;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(38px, 7vw, 70px);
+      font-weight: 400;
+      letter-spacing: .045em;
+      line-height: 1.1;
+    }
+
+    .intro-description {
+      margin: 20px 0 0;
+      max-width: 540px;
+      color: #777985;
+      font-size: 12px;
+      line-height: 2.1;
+      letter-spacing: .04em;
+    }
+
+    /* Search and controls */
+
+    .toolbar {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 6% 35px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 18px;
+    }
+
+    .search-wrap {
+      position: relative;
+      width: min(100%, 350px);
+    }
+
+    .search-wrap::before {
+      content: "";
+      position: absolute;
+      left: 14px;
+      top: 50%;
+      width: 11px;
+      height: 11px;
+      border: 1px solid #85818a;
+      border-radius: 50%;
+      transform: translateY(-60%);
+      pointer-events: none;
+    }
+
+    .search-wrap::after {
+      content: "";
+      position: absolute;
+      left: 25px;
+      top: 55%;
+      width: 5px;
+      height: 1px;
+      background: #85818a;
+      transform: rotate(45deg);
+      pointer-events: none;
+    }
+
+    .search-input {
+      width: 100%;
+      padding: 13px 14px 13px 38px;
+      background: #ffffff80;
+      border: 1px solid #d9dce3;
+      border-radius: 0;
+      outline: none;
+      font-size: 12px;
+      color: var(--ink);
+      transition: border-color .2s;
+    }
+
+    .search-input:focus {
+      border-color: #bd91aa;
+    }
+
+    .search-input::placeholder {
+      color: #9999a2;
+    }
+
+    .add-button {
+      padding: 13px 18px;
+      border: 1px solid var(--film);
+      background: var(--film);
+      color: #fff;
+      font-size: 10px;
+      letter-spacing: .12em;
+      cursor: pointer;
+      transition: background .2s, color .2s;
+      white-space: nowrap;
+    }
+
+    .add-button:hover {
+      background: transparent;
+      color: var(--film);
+    }
+
+    /* Gallery */
+
+    .gallery-section {
+      max-width: 1000px;
+      margin: 0 auto;
+      padding: 0 6% 80px;
+    }
+
+    .gallery-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 15px;
+      margin-bottom: 22px;
+      color: var(--muted);
+      font-size: 10px;
+      letter-spacing: .18em;
+    }
+
+    .gallery-heading .count {
+      font-variant-numeric: tabular-nums;
+      letter-spacing: .1em;
+    }
+
+    .film-gallery {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 24px;
+      gap: clamp(12px, 2.5vw, 24px);
       align-items: start;
     }
 
-    /* 1列につき1本の、縦につながったフィルム */
+    /* Continuous film strips */
+
     .film-strip {
       min-width: 0;
+      position: relative;
       display: grid;
-      grid-template-columns: 15px minmax(0, 1fr) 15px;
-      background: var(--film);
+      grid-template-columns: clamp(23px, 4vw, 36px) minmax(0, 1fr) clamp(23px, 4vw, 36px);
+      padding: 5px 0;
       overflow: hidden;
-      box-shadow: 0 8px 24px rgba(43, 52, 66, 0.09);
-    }
+      isolation: isolate;
 
-    /* 両端の四角い穴。ページ背景色で抜けて見える */
-    .film-rail {
-      background:
+      background-color: var(--film);
+      background-image:
         repeating-linear-gradient(
-          to bottom,
-          var(--page-bg) 0px,
-          var(--page-bg) 9px,
-          var(--film) 9px,
-          var(--film) 23px
+          112deg,
+          transparent 0 22px,
+          #a58c8c22 22.5px,
+          transparent 23px 39px
+        ),
+        repeating-linear-gradient(
+          7deg,
+          transparent 0 34px,
+          #17101245 35px,
+          transparent 36px 57px
+        ),
+        repeating-linear-gradient(
+          0deg,
+          transparent 0 5px,
+          #e5d6d612 5.5px,
+          transparent 6px 9px
+        ),
+        radial-gradient(
+          ellipse at 15% 22%,
+          #72585b50,
+          transparent 40%
+        ),
+        radial-gradient(
+          ellipse at 88% 70%,
+          #1d141755,
+          transparent 45%
         );
-      background-position: center 7px;
-      background-repeat: repeat-y;
+
+      box-shadow:
+        inset 1px 0 2px #d5bfc018,
+        inset -2px 0 4px #160f1155,
+        0 8px 18px #36262925;
     }
 
-    /* フィルム中央部分 */
-    .film-inner {
+    /* Film texture and scratches */
+
+    .film-strip::after {
+      content: "";
+      position: absolute;
+      z-index: 4;
+      inset: 0;
+      pointer-events: none;
+      opacity: .75;
+
+      background-image:
+        repeating-linear-gradient(
+          103deg,
+          transparent 0 37px,
+          #d5c3c32b 37.5px,
+          transparent 38.5px 79px
+        ),
+        repeating-linear-gradient(
+          171deg,
+          transparent 0 63px,
+          #120d103b 64px,
+          transparent 65px 107px
+        ),
+        radial-gradient(
+          ellipse at 2% 28%,
+          #b9a1a13b,
+          transparent 18%
+        ),
+        radial-gradient(
+          ellipse at 98% 76%,
+          #c0a4a42b,
+          transparent 16%
+        );
+
+      mix-blend-mode: screen;
+    }
+
+    /* Sprocket holes */
+
+    .film-rail {
+      position: relative;
+      z-index: 1;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: space-around;
+      gap: 3px;
       min-width: 0;
-      padding: 9px 0;
+      padding: 4px 0;
+
+      background-image:
+        repeating-linear-gradient(
+          113deg,
+          transparent 0 19px,
+          #bba5a51c 20px,
+          transparent 21px 37px
+        ),
+        linear-gradient(
+          90deg,
+          #302124,
+          #483235 50%,
+          #302124
+        );
+    }
+
+    .film-hole {
+      display: block;
+      flex: 0 0 10px;
+      width: 20px;
+      max-width: calc(100% - 5px);
+      height: 10px;
+      border-radius: 3px;
+
+      background: var(--hole);
+
+      box-shadow:
+        0 0 0 1.5px var(--film),
+        inset 0 1px 1px #f2efec80;
+    }
+
+    /* Photo frames */
+
+    .film-inner {
+      position: relative;
+      z-index: 1;
+      min-width: 0;
       background: var(--film);
     }
 
-    /* 写真を縦に連ねる */
     .film-frame {
       position: relative;
-      margin: 0;
-      padding: 8px 0;
-      border-bottom: 1px solid var(--film-line);
+      margin: 0 0 12px;
+      padding: 0 0 12px;
+
+      border-bottom: 5px solid var(--film-dark);
+      box-shadow: 0 1px 0 #72595b;
     }
 
     .film-frame:last-child {
-      border-bottom: none;
+      margin-bottom: 0;
+      padding-bottom: 0;
+      border-bottom: 0;
+      box-shadow: none;
     }
 
-    /* 横長の写真エリア */
-    .photo {
+    .character-photo {
       position: relative;
       width: 100%;
       aspect-ratio: 4 / 3;
       overflow: hidden;
+      background: #75647d;
       isolation: isolate;
+    }
+
+    .character-photo img {
+      position: absolute;
+      inset: 0;
+      display: block;
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      object-position: center;
+      z-index: 0;
+    }
+
+    /* Temporary placeholders until images are added */
+
+    .placeholder {
       background:
-        radial-gradient(
-          ellipse at 50% 35%,
-          rgba(235, 176, 205, 0.48),
-          transparent 48%
+        repeating-linear-gradient(
+          0deg,
+          transparent 0 3px,
+          #ffffff12 4px,
+          transparent 5px 7px
         ),
         linear-gradient(
           135deg,
-          #6d718d,
-          #a8a5c0 48%,
-          #648c9a
+          #62506d,
+          #c889b2 53%,
+          #798ba9
         );
     }
 
-    /* 仮画像ごとに違う色合い */
-    .photo.pink {
+    .placeholder.pink {
       background:
-        radial-gradient(ellipse at 65% 30%,
-          rgba(255, 189, 220, 0.65), transparent 45%),
-        linear-gradient(135deg, #55465f, #c77eaa 55%, #7889a8);
+        repeating-linear-gradient(
+          0deg,
+          transparent 0 3px,
+          #ffffff12 4px,
+          transparent 5px 7px
+        ),
+        linear-gradient(135deg, #795467, #ca91a8 53%, #8b93ac);
     }
 
-    .photo.blue {
+    .placeholder.blue {
       background:
-        radial-gradient(ellipse at 35% 35%,
-          rgba(170, 227, 245, 0.6), transparent 48%),
-        linear-gradient(135deg, #354b65, #648ea5 55%, #b6a9c8);
+        repeating-linear-gradient(
+          0deg,
+          transparent 0 3px,
+          #ffffff12 4px,
+          transparent 5px 7px
+        ),
+        linear-gradient(135deg, #345a68, #77b8c0 53%, #7787a2);
     }
 
-    .photo.lilac {
+    .placeholder.lavender {
       background:
-        radial-gradient(ellipse at 55% 25%,
-          rgba(255, 205, 230, 0.65), transparent 45%),
-        linear-gradient(135deg, #6b526f, #a88eb9 55%, #718b9d);
+        repeating-linear-gradient(
+          0deg,
+          transparent 0 3px,
+          #ffffff12 4px,
+          transparent 5px 7px
+        ),
+        linear-gradient(135deg, #735778, #bd9bc7 53%, #8294b0);
     }
 
-    .photo.cyan {
-      background:
-        radial-gradient(ellipse at 65% 35%,
-          rgba(164, 239, 244, 0.65), transparent 46%),
-        linear-gradient(135deg, #354d5a, #5f9da4 55%, #a5a0c1);
-    }
+    /* Photo grain */
 
-    .photo.rose {
-      background:
-        radial-gradient(ellipse at 40% 28%,
-          rgba(255, 190, 208, 0.65), transparent 46%),
-        linear-gradient(135deg, #604757, #bb8299 55%, #7e8eaa);
-    }
-
-    .photo.night {
-      background:
-        radial-gradient(ellipse at 50% 35%,
-          rgba(140, 177, 224, 0.5), transparent 46%),
-        linear-gradient(135deg, #222d43, #596783 55%, #8e829f);
-    }
-
-    /* あとから追加する実画像 */
-    .photo img {
-      position: absolute;
-      inset: 0;
-      width: 100%;
-      height: 100%;
-      display: block;
-      object-fit: cover;
-    }
-
-    /* フィルム写真の上に重ねる名前 */
-    .character-name {
-      position: absolute;
-      z-index: 3;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      padding: 24px 10px 9px;
-      color: var(--white);
-      font-size: clamp(12px, 1.5vw, 16px);
-      font-weight: 500;
-      letter-spacing: 0.08em;
-      background: linear-gradient(
-        to bottom,
-        transparent,
-        rgba(24, 29, 39, 0.72)
-      );
-      overflow-wrap: anywhere;
-    }
-
-    /* 控えめなアナログ粒子感 */
-    .photo::after {
+    .character-photo::after {
       content: "";
       position: absolute;
-      z-index: 2;
+      z-index: 1;
       inset: 0;
       pointer-events: none;
-      opacity: 0.19;
+
       background-image:
         repeating-linear-gradient(
           0deg,
-          transparent 0px,
-          rgba(255,255,255,0.10) 1px,
-          transparent 2px,
-          transparent 4px
+          transparent 0 3px,
+          #ffffff18 4px,
+          transparent 5px 7px
         ),
-        repeating-linear-gradient(
-          90deg,
-          transparent 0px,
-          rgba(15,20,35,0.12) 1px,
-          transparent 2px,
-          transparent 5px
+        radial-gradient(
+          ellipse at 20% 70%,
+          #17152155,
+          transparent 60%
         );
-      mix-blend-mode: soft-light;
     }
 
-    /* 小さい画面でも2列を維持 */
-    @media (max-width: 520px) {
-      body {
-        padding: 20px 10px 36px;
+    /* Fashion editorial typography */
+
+    .character-name {
+      position: absolute;
+      z-index: 2;
+      left: 5px;
+      right: 3px;
+      bottom: 7px;
+
+      margin: 0;
+      color: #fff;
+
+      font-family:
+        "Helvetica Neue",
+        "Arial Narrow",
+        sans-serif;
+      font-size: clamp(13px, 2.5vw, 26px);
+      font-weight: 300;
+      letter-spacing: .035em;
+      line-height: 1.05;
+      overflow-wrap: anywhere;
+
+      text-shadow:
+        2px 0 var(--pink),
+        -1px 0 var(--cyan),
+        0 2px 5px #1b1724;
+    }
+
+    .character-meta {
+      padding: 9px 4px 0;
+      color: #e2d5d7;
+      font-size: 10px;
+      line-height: 1.8;
+      letter-spacing: .035em;
+    }
+
+    .character-description {
+      margin: 0;
+    }
+
+    .character-tags {
+      margin-top: 5px;
+      color: #c5afb6;
+      font-size: 9px;
+      letter-spacing: .06em;
+      overflow-wrap: anywhere;
+    }
+
+    .empty-message {
+      grid-column: 1 / -1;
+      padding: 45px 12px;
+      text-align: center;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 2;
+    }
+
+    /* Footer */
+
+    .site-footer {
+      padding: 25px 6%;
+      border-top: 1px solid #d9dce3;
+      text-align: center;
+      color: #85818a;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: 10px;
+      letter-spacing: .18em;
+    }
+
+    @media (min-width: 900px) {
+      .gallery-section {
+        max-width: 900px;
       }
 
       .film-gallery {
-        gap: 12px;
+        gap: 28px;
+      }
+    }
+
+    @media (max-width: 520px) {
+      .site-header {
+        padding: 23px 5%;
+      }
+
+      .logo {
+        font-size: 16px;
+      }
+
+      .intro {
+        padding: 48px 5% 28px;
+      }
+
+      .toolbar {
+        padding: 0 5% 28px;
+        flex-direction: column;
+        align-items: stretch;
+      }
+
+      .search-wrap {
+        width: 100%;
+      }
+
+      .add-button {
+        width: 100%;
+      }
+
+      .gallery-section {
+        padding: 0 4% 55px;
+      }
+
+      .film-gallery {
+        gap: 9px;
       }
 
       .film-strip {
-        grid-template-columns: 9px minmax(0, 1fr) 9px;
+        grid-template-columns: 21px minmax(0, 1fr) 21px;
       }
 
-      .film-inner {
-        padding: 5px 0;
+      .film-hole {
+        width: 15px;
+        height: 8px;
+        flex-basis: 8px;
       }
 
       .film-frame {
-        padding: 5px 0;
-      }
-
-      .film-rail {
-        background:
-          repeating-linear-gradient(
-            to bottom,
-            var(--page-bg) 0px,
-            var(--page-bg) 7px,
-            var(--film) 7px,
-            var(--film) 18px
-          );
-        background-position: center 5px;
-        background-repeat: repeat-y;
+        margin-bottom: 8px;
+        padding-bottom: 8px;
+        border-bottom-width: 4px;
       }
 
       .character-name {
-        padding: 18px 5px 6px;
-        font-size: 11px;
-        letter-spacing: 0.03em;
+        left: 4px;
+        bottom: 5px;
+        font-size: clamp(11px, 3vw, 16px);
+      }
+
+      .character-meta {
+        padding: 7px 2px 0;
+        font-size: 9px;
       }
     }
   </style>
 </head>
 
 <body>
-  <main class="film-gallery">
 
-    <!-- 左のフィルム -->
-    <section class="film-strip">
-      <div class="film-rail" aria-hidden="true"></div>
+  <header class="site-header">
+    <a class="logo" href="index.html">LUMIÈRE ARCHIVE</a>
+    <a class="home-link" href="index.html">← BACK TO HOME</a>
+  </header>
 
-      <div class="film-inner">
-        <div class="film-frame">
-          <div class="photo pink">
-            <span class="character-name">キャラクター名</span>
-          </div>
-        </div>
-
-        <div class="film-frame">
-          <div class="photo blue">
-            <span class="character-name">キャラクター名</span>
-          </div>
-        </div>
-
-        <div class="film-frame">
-          <div class="photo lilac">
-            <span class="character-name">キャラクター名</span>
-          </div>
-        </div>
-      </div>
-
-      <div class="film-rail" aria-hidden="true"></div>
+  <main>
+    <section class="intro">
+      <p class="eyebrow">Original Characters / Collection</p>
+      <h1>Characters</h1>
+      <p class="intro-description">
+        創作キャラクターの記録とアーカイブ。<br>
+        ひとりひとりの物語を、フィルムのように残していく。
+      </p>
     </section>
 
-    <!-- 右のフィルム -->
-    <section class="film-strip">
-      <div class="film-rail" aria-hidden="true"></div>
-
-      <div class="film-inner">
-        <div class="film-frame">
-          <div class="photo cyan">
-            <span class="character-name">キャラクター名</span>
-          </div>
-        </div>
-
-        <div class="film-frame">
-          <div class="photo rose">
-            <span class="character-name">キャラクター名</span>
-          </div>
-        </div>
-
-        <div class="film-frame">
-          <div class="photo night">
-            <span class="character-name">キャラクター名</span>
-          </div>
-        </div>
+    <section class="toolbar" aria-label="キャラクター操作">
+      <div class="search-wrap">
+        <input
+          id="character-search"
+          class="search-input"
+          type="search"
+          placeholder="キャラクター名・説明・タグで検索"
+          aria-label="キャラクターを検索"
+        >
       </div>
 
-      <div class="film-rail" aria-hidden="true"></div>
+      <button class="add-button" id="add-character" type="button">
+        ＋ ADD CHARACTER
+      </button>
     </section>
 
+    <section class="gallery-section">
+      <div class="gallery-heading">
+        <span>35MM CHARACTER ARCHIVE</span>
+        <span class="count" id="character-count">06 CHARACTERS</span>
+      </div>
+
+      <div class="film-gallery" id="film-gallery">
+
+        <!-- Character 1 -->
+        <div class="film-strip">
+          <div class="film-rail" aria-hidden="true"></div>
+          <div class="film-inner">
+            <article class="film-frame character-entry"
+              data-name="MOMIJI"
+              data-description="ピンクレッドの髪を持つ天使の少年。"
+              data-tags="天使 少年 ピンク">
+              <div class="character-photo placeholder">
+                <h2 class="character-name">MOMIJI</h2>
+              </div>
+              <div class="character-meta">
+                <p class="character-description">ピンクレッドの髪を持つ天使の少年。</p>
+                <div class="character-tags">#天使　#少年　#ピンク</div>
+              </div>
+            </article>
+
+            <!-- Character 2 -->
+            <article class="film-frame character-entry"
+              data-name="HEON"
+              data-description="静かな雰囲気をまとった狐の獣人パイロット。"
+              data-tags="狐 獣人 パイロット">
+              <div class="character-photo placeholder blue">
+                <h2 class="character-name">HEON</h2>
+              </div>
+              <div class="character-meta">
+                <p class="character-description">静かな雰囲気をまとった狐の獣人パイロット。</p>
+                <div class="character-tags">#狐　#獣人　#パイロット</div>
+              </div>
+            </article>
+
+            <!-- Character 3 -->
+            <article class="film-frame character-entry"
+              data-name="LUMIÈRE"
+              data-description="光と記憶をテーマにしたキャラクター。"
+              data-tags="光 記憶 オリジナル">
+              <div class="character-photo placeholder lavender">
+                <h2 class="character-name">LUMIÈRE</h2>
+              </div>
+              <div class="character-meta">
+                <p class="character-description">光と記憶をテーマにしたキャラクター。</p>
+                <div class="character-tags">#光　#記憶　#オリジナル</div>
+              </div>
+            </article>
+          </div>
+          <div class="film-rail" aria-hidden="true"></div>
+        </div>
+
+        <!-- Second continuous film strip -->
+        <div class="film-strip">
+          <div class="film-rail" aria-hidden="true"></div>
+          <div class="film-inner">
+
+            <!-- Character 4 -->
+            <article class="film-frame character-entry"
+              data-name="NOCTURNE"
+              data-description="夜の静けさをイメージしたキャラクター。"
+              data-tags="夜 ダーク オリジナル">
+              <div class="character-photo placeholder pink">
+                <h2 class="character-name">NOCTURNE</h2>
+              </div>
+              <div class="character-meta">
+                <p class="character-description">夜の静けさをイメージしたキャラクター。</p>
+                <div class="character-tags">#夜　#ダーク　#オリジナル</div>
+              </div>
+            </article>
+
+            <!-- Character 5 -->
+            <article class="film-frame character-entry"
+              data-name="ANGEL"
+              data-description="透明感のある雰囲気を持つキャラクター。"
+              data-tags="天使 透明感 オリジナル">
+              <div class="character-photo placeholder lavender">
+                <h2 class="character-name">ANGEL</h2>
+              </div>
+              <div class="character-meta">
+                <p class="character-description">透明感のある雰囲気を持つキャラクター。</p>
+                <div class="character-tags">#天使　#透明感　#オリジナル</div>
+              </div>
+            </article>
+
+            <!-- Character 6 -->
+            <article class="film-frame character-entry"
+              data-name="MEMORY"
+              data-description="忘れられない記憶をモチーフにしたキャラクター。"
+              data-tags="記憶 物語 オリジナル">
+              <div class="character-photo placeholder blue">
+                <h2 class="character-name">MEMORY</h2>
+              </div>
+              <div class="character-meta">
+                <p class="character-description">忘れられない記憶をモチーフにしたキャラクター。</p>
+                <div class="character-tags">#記憶　#物語　#オリジナル</div>
+              </div>
+            </article>
+
+          </div>
+          <div class="film-rail" aria-hidden="true"></div>
+        </div>
+
+      </div>
+    </section>
   </main>
+
+  <footer class="site-footer">
+    LUMIÈRE ARCHIVE · ORIGINAL CHARACTER COLLECTION
+  </footer>
+
+  <script>
+    const gallery = document.getElementById("film-gallery");
+    const searchInput = document.getElementById("character-search");
+    const addButton = document.getElementById("add-character");
+    const countLabel = document.getElementById("character-count");
+
+    // Generate rounded, horizontal sprocket holes.
+    function createFilmHoles() {
+      document.querySelectorAll(".film-rail").forEach((rail) => {
+        rail.replaceChildren();
+
+        const numberOfHoles = Math.max(
+          8,
+          Math.ceil(rail.parentElement.scrollHeight / 25)
+        );
+
+        for (let i = 0; i < numberOfHoles; i++) {
+          const hole = document.createElement("span");
+          hole.className = "film-hole";
+          rail.appendChild(hole);
+        }
+      });
+    }
+
+    // Filter by name, description, and tags.
+    function filterCharacters() {
+      const query = searchInput.value.trim().toLocaleLowerCase();
+      const entries = [...document.querySelectorAll(".character-entry")];
+      let visibleCount = 0;
+
+      entries.forEach((entry) => {
+        const searchableText = [
+          entry.dataset.name,
+          entry.dataset.description,
+          entry.dataset.tags,
+          entry.textContent
+        ].join(" ").toLocaleLowerCase();
+
+        const matches = searchableText.includes(query);
+        entry.hidden = !matches;
+
+        if (matches) visibleCount++;
+      });
+
+      document.querySelectorAll(".film-strip").forEach((strip) => {
+        const visibleEntries = strip.querySelectorAll(
+          ".character-entry:not([hidden])"
+        );
+        strip.hidden = visibleEntries.length === 0;
+      });
+
+      countLabel.textContent =
+        String(visibleCount).padStart(2, "0") + " CHARACTERS";
+
+      createFilmHoles();
+    }
+
+    searchInput.addEventListener("input", filterCharacters);
+
+    // Add a new character to the shorter film strip.
+    addButton.addEventListener("click", () => {
+      const name = prompt("キャラクター名を入力してね。");
+      if (!name || !name.trim()) return;
+
+      const description =
+        prompt("キャラクターの説明を入力してね。") || "";
+
+      const tags =
+        prompt("タグを入力してね（例：天使、少年、ファンタジー）。") || "";
+
+      const strips = [...document.querySelectorAll(".film-strip")];
+      const targetStrip = strips
+        .sort((a, b) =>
+          a.querySelectorAll(".character-entry").length -
+          b.querySelectorAll(".character-entry").length
+        )[0];
+
+      const entry = document.createElement("article");
+      entry.className = "film-frame character-entry";
+      entry.dataset.name = name.trim();
+      entry.dataset.description = description.trim();
+      entry.dataset.tags = tags.trim();
+
+      const photo = document.createElement("div");
+      photo.className = "character-photo placeholder";
+
+      const title = document.createElement("h2");
+      title.className = "character-name";
+      title.textContent = name.trim();
+      photo.appendChild(title);
+
+      const meta = document.createElement("div");
+      meta.className = "character-meta";
+
+      const descriptionElement = document.createElement("p");
+      descriptionElement.className = "character-description";
+      descriptionElement.textContent = description.trim();
+
+      const tagsElement = document.createElement("div");
+      tagsElement.className = "character-tags";
+      tagsElement.textContent = tags.trim()
+        ? "# " + tags.trim().replace(/[、,，]/g, "　# ")
+        : "";
+
+      meta.append(descriptionElement, tagsElement);
+      entry.append(photo, meta);
+
+      const inner = targetStrip.querySelector(".film-inner");
+      inner.appendChild(entry);
+
+      searchInput.value = "";
+      filterCharacters();
+      createFilmHoles();
+    });
+
+    // Update hole count after layout changes.
+    window.addEventListener("resize", createFilmHoles);
+
+    createFilmHoles();
+    filterCharacters();
+  </script>
+
 </body>
 </html>
