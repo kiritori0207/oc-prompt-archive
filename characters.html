@@ -85,7 +85,7 @@
       margin: 0 auto;
     }
 
-    /* 1人だけなら1列にする */
+    /* 1人だけなら1列表示 */
     .gallery.single-column {
       grid-template-columns: minmax(0, 1fr);
       max-width: 450px;
@@ -101,7 +101,7 @@
       gap: 30px;
     }
 
-    /* フィルムの穴 */
+    /* フィルムの穴：間隔を狭く調整 */
     .film-column::before,
     .film-column::after {
       content: "";
@@ -114,7 +114,7 @@
         var(--hole) 0,
         var(--hole) 15px,
         transparent 15px,
-        transparent 25px
+        transparent 20px
       );
       pointer-events: none;
     }
@@ -257,18 +257,16 @@
     <div class="gallery" id="gallery"></div>
   </main>
 
-  <footer> LUMIÈRE ARCHIVE </footer>
+  <footer>LUMIÈRE ARCHIVE</footer>
 
   <script>
     /*
-      キャラクターを追加するときは、この一覧に書き足してください。
+      キャラクター追加用リスト
 
       name     : キャラクター名
-      image    : 画像ファイルのパス
+      image    : 画像の保存場所
       category : "OC" または "OUR WORLD"
-      gender   : 性別ラベル（自由に変更できます）
-
-      画像は images フォルダに入れてください。
+      gender   : 表示する性別ラベル
     */
 
     const characters = [
@@ -368,10 +366,7 @@
         }
       });
 
-      /*
-        1人だけの場合は左列だけ表示。
-        2人以上の場合は左右の列を表示。
-      */
+      /* 1人なら右列を表示せず、2人以上なら左右2列 */
       if (filtered.length === 1) {
         gallery.classList.add("single-column");
         gallery.appendChild(leftColumn);
