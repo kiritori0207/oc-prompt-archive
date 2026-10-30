@@ -8,11 +8,10 @@
 
   <style>
     :root {
-      --background: #E9E8E6;
       --film: #362629;
-      --hole: #D1D0CE;
+      --holes: #D1D0CE;
+      --page: #E9E8E6;
       --text: #362629;
-      --label: #E9E8E6;
     }
 
     * {
@@ -21,252 +20,262 @@
 
     body {
       margin: 0;
-      background: var(--background);
+      background: var(--page);
       color: var(--text);
-      font-family: "Helvetica Neue", Arial, sans-serif;
+      font-family: Georgia, "Times New Roman", serif;
     }
 
-    header {
-      padding: 46px 24px 32px;
+    /* ヘッダー */
+    .site-header {
+      padding: 48px 24px 36px;
       text-align: center;
     }
 
     .site-title {
       margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(25px, 5vw, 42px);
+      font-size: clamp(26px, 5vw, 46px);
       font-weight: 400;
-      letter-spacing: 0.14em;
+      letter-spacing: 0.16em;
     }
 
     .site-subtitle {
-      margin-top: 12px;
+      margin: 12px 0 0;
+      font-family: sans-serif;
       font-size: 10px;
       letter-spacing: 0.28em;
     }
 
+    /* フィルター */
     .filters {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 10px;
-      padding: 0 16px 34px;
+      gap: 10px 24px;
+      padding: 0 16px 36px;
     }
 
     .filter-button {
-      padding: 8px 17px;
-      border: 1px solid var(--film);
-      border-radius: 0;
+      padding: 7px 0;
+      border: 0;
+      border-bottom: 1px solid transparent;
       background: transparent;
-      color: var(--film);
-      font-size: 10px;
+      color: var(--text);
+      font-family: inherit;
+      font-size: 11px;
       letter-spacing: 0.12em;
       cursor: pointer;
-      transition: background 0.2s, color 0.2s;
     }
 
     .filter-button:hover,
     .filter-button.active {
-      background: var(--film);
-      color: var(--background);
+      border-bottom-color: var(--text);
     }
 
-    main {
-      width: min(100%, 1200px);
-      margin: 0 auto;
-      padding: 0 22px 60px;
-    }
-
+    /* 2列レイアウト */
     .gallery {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(16px, 4vw, 42px);
+      gap: 12px;
+      width: min(calc(100% - 24px), 900px);
+      margin: 0 auto 60px;
       align-items: stretch;
-      margin: 0 auto;
     }
 
-    /* 1人だけなら1列表示 */
+    /* 1人だけの場合は1列表示 */
     .gallery.single-column {
       grid-template-columns: minmax(0, 1fr);
-      max-width: 450px;
+      max-width: 444px;
     }
 
+    /* 各列のフィルム */
     .film-column {
       position: relative;
       min-width: 0;
-      padding: 24px 22px;
+      align-self: stretch;
+      padding: 0 27px;
+      overflow: hidden;
       background: var(--film);
-      display: flex;
-      flex-direction: column;
-      gap: 30px;
     }
 
-    /* フィルムの穴：間隔を狭く調整 */
+    /* 左右のレール：穴の色・形・大きさを維持し、間隔のみ変更 */
     .film-column::before,
     .film-column::after {
       content: "";
       position: absolute;
-      top: 12px;
-      bottom: 12px;
-      width: 9px;
-      background-image: repeating-linear-gradient(
-        to bottom,
-        var(--hole) 0,
-        var(--hole) 15px,
-        transparent 15px,
-        transparent 20px
-      );
-      pointer-events: none;
+      z-index: 2;
+      top: 0;
+      bottom: 0;
+      width: 27px;
+      background-color: var(--film);
+
+      /* 元の46px間隔を36pxに変更 */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='27' height='36' viewBox='0 0 27 36'%3E%3Crect x='6' y='17' width='15' height='11' rx='3' fill='%23D1D0CE'/%3E%3C/svg%3E");
+      background-repeat: repeat-y;
+      background-position: center top;
     }
 
     .film-column::before {
-      left: 6px;
+      left: 0;
     }
 
     .film-column::after {
-      right: 6px;
+      right: 0;
     }
 
+    /* キャラクターカード */
     .character-card {
-      width: 100%;
-      min-width: 0;
-      color: var(--label);
+      position: relative;
+      padding: 18px 0 20px;
+      margin: 0;
+      background: var(--film);
+      text-align: center;
     }
 
-    .character-image-wrap {
-      width: 100%;
-      aspect-ratio: 3 / 4;
-      overflow: hidden;
-      background: #C9C6C4;
+    .character-card + .character-card {
+      border-top: 1px solid rgba(209, 208, 206, 0.25);
     }
 
-    .character-image {
+    /* 画像は縦3:4 */
+    .portrait {
       display: block;
       width: 100%;
-      height: 100%;
+      aspect-ratio: 3 / 4;
       object-fit: cover;
-      transition: transform 0.35s ease;
+      background: #514247;
     }
 
-    .character-card:hover .character-image {
-      transform: scale(1.025);
-    }
-
-    .character-info {
+    /* 画像未設定時のプレースホルダー */
+    .portrait-placeholder {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      gap: 8px;
-      padding-top: 12px;
+      justify-content: center;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background:
+        linear-gradient(145deg, #74636A, #403238 65%, #2E2428);
+      color: #D1D0CE;
+      font-size: 11px;
+      letter-spacing: 0.15em;
     }
 
     .character-name {
-      min-width: 0;
-      margin: 0;
-      overflow-wrap: anywhere;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(13px, 2vw, 18px);
+      margin: 14px 2px 9px;
+      color: #F0EDEA;
+      font-size: clamp(12px, 1.8vw, 16px);
       font-weight: 400;
-      letter-spacing: 0.04em;
+      letter-spacing: 0.1em;
+      overflow-wrap: anywhere;
     }
 
-    .character-gender {
-      flex-shrink: 0;
-      padding: 4px 8px;
-      border: 1px solid rgba(233, 232, 230, 0.7);
-      color: var(--label);
+    /* 分類タグと性別タグ */
+    .character-tags {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 5px;
+    }
+
+    .gender-label {
+      display: inline-block;
+      padding: 3px 10px;
+      border: 1px solid rgba(209, 208, 206, 0.6);
+      color: var(--holes);
+      font-family: sans-serif;
       font-size: 9px;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.12em;
     }
 
     .empty-message {
       grid-column: 1 / -1;
-      padding: 60px 20px;
+      padding: 50px 10px;
       text-align: center;
       font-size: 12px;
       letter-spacing: 0.1em;
     }
 
-    footer {
-      padding: 20px;
+    .site-footer {
+      padding: 0 20px 36px;
       text-align: center;
-      font-family: Georgia, "Times New Roman", serif;
       font-size: 10px;
-      letter-spacing: 0.2em;
-      opacity: 0.7;
+      letter-spacing: 0.18em;
     }
 
-    @media (max-width: 520px) {
-      header {
-        padding-top: 34px;
-      }
-
-      main {
-        padding-right: 12px;
-        padding-left: 12px;
+    /* スマートフォン */
+    @media (max-width: 480px) {
+      .site-header {
+        padding-top: 36px;
       }
 
       .gallery {
-        gap: 10px;
+        width: calc(100% - 16px);
+        gap: 8px;
+      }
+
+      .gallery.single-column {
+        width: calc(100% - 16px);
       }
 
       .film-column {
-        padding: 18px 15px;
-        gap: 22px;
-      }
-
-      .film-column::before {
-        left: 4px;
-      }
-
-      .film-column::after {
-        right: 4px;
+        padding-right: 20px;
+        padding-left: 20px;
       }
 
       .film-column::before,
       .film-column::after {
-        width: 6px;
+        width: 20px;
+        background-size: 20px 36px;
       }
 
-      .character-info {
-        align-items: flex-start;
-        flex-direction: column;
-        gap: 7px;
+      .character-card {
+        padding-top: 12px;
+        padding-bottom: 14px;
       }
 
       .character-name {
-        font-size: 13px;
+        letter-spacing: 0.04em;
       }
     }
   </style>
 </head>
 
 <body>
-  <header>
+  <header class="site-header">
     <h1 class="site-title">LUMIÈRE ARCHIVE</h1>
-    <div class="site-subtitle">CHARACTER COLLECTION</div>
+    <p class="site-subtitle">ORIGINAL CHARACTER ARCHIVE</p>
   </header>
 
   <nav class="filters" aria-label="キャラクターの絞り込み">
-    <button class="filter-button active" data-filter="ALL">ALL</button>
-    <button class="filter-button" data-filter="OC">OC</button>
-    <button class="filter-button" data-filter="OUR WORLD">OUR WORLDS</button>
+    <button class="filter-button active" data-filter="ALL">
+      ALL
+    </button>
+    <button class="filter-button" data-filter="OC">
+      OC
+    </button>
+    <button class="filter-button" data-filter="OUR WORLDS">
+      OUR WORLDS
+    </button>
   </nav>
 
   <main>
-    <div class="gallery" id="gallery"></div>
+    <section
+      class="gallery"
+      id="gallery"
+      aria-label="キャラクター一覧"
+    ></section>
   </main>
 
-  <footer>LUMIÈRE ARCHIVE</footer>
+  <footer class="site-footer">
+    LUMIÈRE ARCHIVE · EST. 2026
+  </footer>
 
   <script>
     /*
       キャラクター追加用リスト
 
       name     : キャラクター名
-      image    : 画像の保存場所
-      category : "OC" または "OUR WORLD"
-      gender   : 表示する性別ラベル
+      image    : 画像ファイルのパス
+      category : "OC" または "OUR WORLDS"
+      gender   : 性別ラベル
     */
 
     const characters = [
@@ -279,7 +288,7 @@
       {
         name: "CHARACTER 02",
         image: "images/character-02.jpg",
-        category: "OUR WORLD",
+        category: "OUR WORLDS",
         gender: "FEMALE"
       },
       {
@@ -291,8 +300,26 @@
       {
         name: "CHARACTER 04",
         image: "images/character-04.jpg",
-        category: "OUR WORLD",
+        category: "OUR WORLDS",
         gender: "OTHER"
+      },
+      {
+        name: "CHARACTER 05",
+        image: "images/character-05.jpg",
+        category: "OC",
+        gender: "FEMALE"
+      },
+      {
+        name: "CHARACTER 06",
+        image: "images/character-06.jpg",
+        category: "OC",
+        gender: "MALE"
+      },
+      {
+        name: "CHARACTER 07",
+        image: "images/character-07.jpg",
+        category: "OUR WORLDS",
+        gender: "FEMALE"
       }
     ];
 
@@ -305,45 +332,53 @@
       const card = document.createElement("article");
       card.className = "character-card";
 
-      const imageWrap = document.createElement("div");
-      imageWrap.className = "character-image-wrap";
-
       const image = document.createElement("img");
-      image.className = "character-image";
+      image.className = "portrait";
       image.src = character.image;
       image.alt = character.name;
       image.loading = "lazy";
 
-      imageWrap.appendChild(image);
-
-      const info = document.createElement("div");
-      info.className = "character-info";
+      /* 画像が見つからない場合 */
+      image.addEventListener("error", () => {
+        const placeholder = document.createElement("div");
+        placeholder.className = "portrait-placeholder";
+        placeholder.textContent = "PORTRAIT";
+        image.replaceWith(placeholder);
+      }, { once: true });
 
       const name = document.createElement("h2");
       name.className = "character-name";
       name.textContent = character.name;
 
+      const tags = document.createElement("div");
+      tags.className = "character-tags";
+
+      const category = document.createElement("span");
+      category.className = "gender-label";
+      category.textContent =
+        character.category === "OUR WORLDS" ? "OUR" : "OC";
+
       const gender = document.createElement("span");
-      gender.className = "character-gender";
+      gender.className = "gender-label";
       gender.textContent = character.gender;
 
-      info.append(name, gender);
-      card.append(imageWrap, info);
+      tags.append(category, gender);
+      card.append(image, name, tags);
 
       return card;
     }
 
     function renderGallery() {
+      const filtered = characters.filter(character =>
+        currentFilter === "ALL" ||
+        character.category === currentFilter
+      );
+
       gallery.replaceChildren();
       gallery.classList.remove("single-column");
 
-      const filtered = characters.filter(character => {
-        return currentFilter === "ALL" ||
-               character.category === currentFilter;
-      });
-
       if (filtered.length === 0) {
-        const message = document.createElement("div");
+        const message = document.createElement("p");
         message.className = "empty-message";
         message.textContent = "NO CHARACTERS";
         gallery.appendChild(message);
@@ -353,26 +388,28 @@
       const leftColumn = document.createElement("div");
       leftColumn.className = "film-column";
 
+      /* 1人の場合は右列を作らない */
+      if (filtered.length === 1) {
+        gallery.classList.add("single-column");
+        leftColumn.appendChild(createCharacterCard(filtered[0]));
+        gallery.appendChild(leftColumn);
+        return;
+      }
+
       const rightColumn = document.createElement("div");
       rightColumn.className = "film-column";
 
-      filtered.forEach((character, index) => {
-        const card = createCharacterCard(character);
+      const splitAt = Math.ceil(filtered.length / 2);
 
-        if (index % 2 === 0) {
-          leftColumn.appendChild(card);
-        } else {
-          rightColumn.appendChild(card);
-        }
+      filtered.slice(0, splitAt).forEach(character => {
+        leftColumn.appendChild(createCharacterCard(character));
       });
 
-      /* 1人なら右列を表示せず、2人以上なら左右2列 */
-      if (filtered.length === 1) {
-        gallery.classList.add("single-column");
-        gallery.appendChild(leftColumn);
-      } else {
-        gallery.append(leftColumn, rightColumn);
-      }
+      filtered.slice(splitAt).forEach(character => {
+        rightColumn.appendChild(createCharacterCard(character));
+      });
+
+      gallery.append(leftColumn, rightColumn);
     }
 
     filterButtons.forEach(button => {
@@ -380,11 +417,18 @@
         currentFilter = button.dataset.filter;
 
         filterButtons.forEach(item => {
-          item.classList.toggle("active", item === button);
+          const active = item === button;
+          item.classList.toggle("active", active);
+          item.setAttribute("aria-pressed", String(active));
         });
 
         renderGallery();
       });
+
+      button.setAttribute(
+        "aria-pressed",
+        String(button.dataset.filter === "ALL")
+      );
     });
 
     renderGallery();
