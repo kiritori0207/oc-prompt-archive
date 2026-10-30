@@ -10,13 +10,13 @@
 html{scroll-behavior:smooth}
 body{margin:0;color:#68758b;font-family:Georgia,"Times New Roman",serif;background:#f2f4f7}
 .hero{position:relative;min-height:780px;overflow:hidden;background:linear-gradient(#cbd7e2,#e8e8e5 65%,#f6f6f4)}
-.scene-image{position:absolute;inset:0 0 0;height:72%;background:linear-gradient(#bac8d5,#dbe0e3 65%,#f0efeb);background-position:center;background-size:cover}
-.scene-image:after{content:"";position:absolute;inset:40% 0 -1px;background:linear-gradient(transparent,#f1f0ed 90%)}
+.scene-image{position:absolute;inset:0 0 auto;height:72%;background:linear-gradient(#bac8d5,#dbe0e3 65%,#f0efeb);background-position:center;background-size:cover}
+.scene-image:after{content:"";position:absolute;inset:40% 0 -1px;background:linear-gradient(transparent,#f1f0ed 90%);pointer-events:none}
 .upload{position:absolute;z-index:5;top:18px;left:18px}
 .upload label{display:inline-block;padding:10px 14px;border:1px solid #ffffffaa;border-radius:24px;background:#ffffffa6;color:#68758b;font:11px Arial,sans-serif;cursor:pointer}
 .upload input{display:none}
 .ground{position:absolute;bottom:0;left:-10%;width:120%;height:32%;border-radius:50% 50% 0 0/15% 15% 0 0;background:radial-gradient(ellipse at top,#fff 0%,#f5f5f3 55%,#e7ebf0 100%);box-shadow:0 -12px 40px #fff9}
-.snow{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
+.snow{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none;display:block}
 .hero-content{position:absolute;z-index:4;top:44%;left:0;width:100%;padding:20px;text-align:center;transform:translateY(-10%)}
 .eyebrow{font:10px Arial,sans-serif;letter-spacing:3px;color:white;text-shadow:0 1px 10px #52657b;margin-bottom:24px}
 h1{font-size:clamp(38px,7vw,70px);font-weight:400;line-height:1.12;letter-spacing:-1.5px;color:white;text-shadow:0 2px 18px #71809688;margin:0}
@@ -33,87 +33,176 @@ h1 i{color:#fff8ff}
 .card p{font:11px Arial,sans-serif;line-height:1.7}
 .card b{position:absolute;right:16px;bottom:14px;font-weight:400}
 footer{text-align:center;padding:24px 10px;font:9px Arial,sans-serif;letter-spacing:2px;color:#a6afbe}
-@media(max-width:500px){.hero{min-height:690px}.hero-content{top:43%}.cards{gap:8px}.card{padding:18px 12px;min-height:150px}.card p{font-size:10px}}
+@media(max-width:500px){
+ .hero{min-height:690px}
+ .hero-content{top:43%}
+ .cards{gap:8px}
+ .card{padding:18px 12px;min-height:150px}
+ .card p{font-size:10px}
+}
 </style>
 </head>
 <body>
 <section class="hero">
   <div class="scene-image" id="sceneImage"></div>
+
   <div class="upload">
-    <label>＋ 街並みの画像を選ぶ<input id="imageInput" type="file" accept="image/*"></label>
+    <label>＋ 街並みの画像を選ぶ
+      <input id="imageInput" type="file" accept="image/*">
+    </label>
   </div>
+
   <div class="ground"></div>
   <canvas class="snow" id="snow"></canvas>
+
   <div class="hero-content">
     <div class="eyebrow">✧ A LITTLE WORLD OF YOUR OWN ✧</div>
     <h1>Make your own<br><i>little universe.</i></h1>
     <p class="subtitle">キャラクターも、構図も、物語も。<br>あなたの「好き」を集める、小さなアーカイブ。</p>
     <button class="cta" onclick="document.getElementById('archive').scrollIntoView({behavior:'smooth'})">EXPLORE THE ARCHIVE　↘</button>
   </div>
+
   <div class="caption">A QUIET WINTER DAY · A WORLD OF IMAGINATION</div>
 </section>
+
 <section class="archive" id="archive">
   <div class="section-title">✧ &nbsp; COLLECT YOUR MAGIC &nbsp; ✧</div>
   <div class="cards">
-    <button class="card" onclick="alert('キャラクター一覧ページはこれから作るよ！')"><small>01 / COLLECTION</small><strong>Characters</strong><p>大切なキャラクターたちを集めて。</p><b>↗</b></button>
-    <button class="card" onclick="alert('構図一覧ページはこれから作るよ！')"><small>02 / INSPIRATION</small><strong>Compositions</strong><p>お気に入りの構図とアイデアを。</p><b>↗</b></button>
+    <button class="card" onclick="alert('キャラクター一覧ページはこれから作るよ！')">
+      <small>01 / COLLECTION</small>
+      <strong>Characters</strong>
+      <p>大切なキャラクターたちを集めて。</p>
+      <b>↗</b>
+    </button>
+    <button class="card" onclick="alert('構図一覧ページはこれから作るよ！')">
+      <small>02 / INSPIRATION</small>
+      <strong>Compositions</strong>
+      <p>お気に入りの構図とアイデアを。</p>
+      <b>↗</b>
+    </button>
   </div>
   <footer>MADE OF DREAMS & LITTLE DETAILS　✧</footer>
 </section>
+
 <script>
+/* 画像選択：現在のブラウザ内でプレビュー */
 const input=document.getElementById('imageInput');
 input.addEventListener('change',()=>{
- const file=input.files[0];
+ const file=input.files&&input.files[0];
  if(!file)return;
+ if(!file.type.startsWith('image/'))return;
  const reader=new FileReader();
  reader.onload=e=>{
   document.getElementById('sceneImage').style.backgroundImage=`url("${e.target.result}")`;
  };
  reader.readAsDataURL(file);
 });
+
+/* 雪ときらめき：iPhone・PC対応 */
 const canvas=document.getElementById('snow');
 const ctx=canvas.getContext('2d');
-let w,h,dpr,flakes=[],last=0;
+let w=0,h=0,dpr=1,flakes=[],last=0,raf=0;
+
 function makeFlake(initial){
- return{x:Math.random()*w,y:initial?Math.random()*h:-15,
- r:Math.random()<.65?Math.random()*2.2+1.2:Math.random()*3.5+2.5,
- speed:Math.random()*.8+.25,drift:Math.random()*1+.2,
- phase:Math.random()*6.28,twinkle:Math.random()*6.28,
- star:Math.random()<.25,alpha:Math.random()*.5+.35};
+ return {
+  x:Math.random()*w,
+  y:initial?Math.random()*h:-15,
+  r:Math.random()<.65?Math.random()*2.5+1.5:Math.random()*4+2.5,
+  speed:Math.random()*.8+.3,
+  drift:Math.random()*1+.2,
+  phase:Math.random()*6.28,
+  twinkle:Math.random()*6.28,
+  star:Math.random()<.3,
+  alpha:Math.random()*.45+.4
+ };
 }
+
 function resize(){
  const rect=canvas.getBoundingClientRect();
- w=rect.width;h=rect.height;dpr=Math.min(window.devicePixelRatio||1,2);
- canvas.width=w*dpr;canvas.height=h*dpr;
+ w=rect.width;
+ h=canvas.parentElement.offsetHeight;
+ dpr=Math.min(window.devicePixelRatio||1,2);
+
+ if(w<=0||h<=0)return;
+
+ canvas.width=Math.round(w*dpr);
+ canvas.height=Math.round(h*dpr);
+ canvas.style.width=w+'px';
+ canvas.style.height=h+'px';
+
  ctx.setTransform(dpr,0,0,dpr,0,0);
- flakes=Array.from({length:Math.min(190,Math.max(80,Math.round(w*h/3000)))},()=>makeFlake(true));
+
+ const count=Math.min(180,Math.max(75,Math.round(w*h/3000)));
+ flakes=Array.from({length:count},()=>makeFlake(true));
 }
+
 function draw(time){
- const dt=Math.min((time-last)/16.67||1,2);last=time;
+ if(!canvas.isConnected)return;
+
+ if(!w||!h)resize();
+
+ const dt=Math.min((time-last)/16.67||1,2);
+ last=time;
+
  ctx.clearRect(0,0,w,h);
+
  for(const f of flakes){
   f.y+=f.speed*dt;
-  f.x+=Math.sin(time*.00035+f.phase)*f.drift*dt;
-  f.twinkle+=.04*dt;
-  if(f.y>h+15){Object.assign(f,makeFlake(false));f.x=Math.random()*w}
-  if(f.x>w+10)f.x=-10;if(f.x< -10)f.x=w+10;
+  f.x+=Math.sin(time*.0004+f.phase)*f.drift*dt;
+  f.twinkle+=.045*dt;
+
+  if(f.y>h+15){
+   Object.assign(f,makeFlake(false));
+   f.x=Math.random()*w;
+  }
+
+  if(f.x>w+10)f.x=-10;
+  if(f.x< -10)f.x=w+10;
+
   const pulse=.5+.5*Math.sin(f.twinkle);
   ctx.globalAlpha=f.alpha*(f.star?.3+.7*pulse:1);
-  ctx.fillStyle='#fff';ctx.shadowBlur=f.star?16:7;ctx.shadowColor='#fff';
-  ctx.beginPath();ctx.arc(f.x,f.y,f.r,0,Math.PI*2);ctx.fill();
-  if(f.star&&pulse>.45){
+  ctx.fillStyle='#fff';
+  ctx.shadowBlur=f.star?18:8;
+  ctx.shadowColor='#c9e5ff';
+
+  ctx.beginPath();
+  ctx.arc(f.x,f.y,f.r,0,Math.PI*2);
+  ctx.fill();
+
+  if(f.star&&pulse>.4){
    const size=f.r*(1.5+pulse);
-   ctx.strokeStyle='rgba(255,255,255,'+(.4+pulse*.6)+')';ctx.lineWidth=1;
-   ctx.beginPath();ctx.moveTo(f.x-size*2.5,f.y);ctx.lineTo(f.x+size*2.5,f.y);
-   ctx.moveTo(f.x,f.y-size*2.5);ctx.lineTo(f.x,f.y+size*2.5);ctx.stroke();
+   ctx.strokeStyle='rgba(255,255,255,'+(.5+pulse*.5)+')';
+   ctx.lineWidth=1.2;
+   ctx.beginPath();
+   ctx.moveTo(f.x-size*2.5,f.y);
+   ctx.lineTo(f.x+size*2.5,f.y);
+   ctx.moveTo(f.x,f.y-size*2.5);
+   ctx.lineTo(f.x,f.y+size*2.5);
+   ctx.stroke();
   }
  }
- ctx.globalAlpha=1;ctx.shadowBlur=0;
- requestAnimationFrame(draw);
+
+ ctx.globalAlpha=1;
+ ctx.shadowBlur=0;
+ raf=requestAnimationFrame(draw);
 }
-if(!window.matchMedia('(prefers-reduced-motion: reduce)').matches){
- resize();requestAnimationFrame(draw);window.addEventListener('resize',resize);
+
+/* 動きを減らす設定の有無にかかわらず起動 */
+function startSnow(){
+ if(raf)cancelAnimationFrame(raf);
+ resize();
+ last=0;
+ raf=requestAnimationFrame(draw);
 }
+
+startSnow();
+window.addEventListener('resize',resize);
+window.addEventListener('orientationchange',()=>setTimeout(resize,300));
+
+/* iPhoneの画面復帰時にアニメーションを再開 */
+document.addEventListener('visibilitychange',()=>{
+ if(!document.hidden)startSnow();
+});
 </script>
 </body>
 </html>
