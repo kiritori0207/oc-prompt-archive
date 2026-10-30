@@ -8,10 +8,11 @@
 
   <style>
     :root {
+      --background: #E9E8E6;
       --film: #362629;
-      --holes: #D1D0CE;
-      --page: #E9E8E6;
+      --hole: #D1D0CE;
       --text: #362629;
+      --label: #E9E8E6;
     }
 
     * {
@@ -20,243 +21,256 @@
 
     body {
       margin: 0;
-      background: var(--page);
+      background: var(--background);
       color: var(--text);
-      font-family: Georgia, "Times New Roman", serif;
+      font-family: "Helvetica Neue", Arial, sans-serif;
     }
 
-    /* ヘッダー */
-    .site-header {
-      padding: 48px 24px 36px;
+    header {
+      padding: 46px 24px 32px;
       text-align: center;
     }
 
     .site-title {
       margin: 0;
-      font-size: clamp(26px, 5vw, 46px);
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(25px, 5vw, 42px);
       font-weight: 400;
-      letter-spacing: 0.16em;
+      letter-spacing: 0.14em;
     }
 
     .site-subtitle {
-      margin: 12px 0 0;
-      font-family: sans-serif;
+      margin-top: 12px;
       font-size: 10px;
       letter-spacing: 0.28em;
     }
 
-    /* フィルター */
     .filters {
       display: flex;
       justify-content: center;
       flex-wrap: wrap;
-      gap: 10px 24px;
-      padding: 0 16px 36px;
+      gap: 10px;
+      padding: 0 16px 34px;
     }
 
     .filter-button {
-      padding: 7px 0;
-      border: 0;
-      border-bottom: 1px solid transparent;
+      padding: 8px 17px;
+      border: 1px solid var(--film);
+      border-radius: 0;
       background: transparent;
-      color: var(--text);
-      font-family: inherit;
-      font-size: 11px;
+      color: var(--film);
+      font-size: 10px;
       letter-spacing: 0.12em;
       cursor: pointer;
+      transition: background 0.2s, color 0.2s;
     }
 
     .filter-button:hover,
     .filter-button.active {
-      border-bottom-color: var(--text);
+      background: var(--film);
+      color: var(--background);
     }
 
-    /* 2列レイアウト */
+    main {
+      width: min(100%, 1200px);
+      margin: 0 auto;
+      padding: 0 22px 60px;
+    }
+
     .gallery {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: 12px;
-      width: min(100% - 24px, 900px);
-      margin: 0 auto 60px;
+      gap: clamp(16px, 4vw, 42px);
       align-items: stretch;
+      margin: 0 auto;
     }
 
-    /* 各列のフィルム。列全体で1本につながる */
+    /* 1人だけなら1列にする */
+    .gallery.single-column {
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 450px;
+    }
+
     .film-column {
       position: relative;
       min-width: 0;
-      align-self: stretch;
-      padding: 0 27px;
-      overflow: hidden;
+      padding: 24px 22px;
       background: var(--film);
+      display: flex;
+      flex-direction: column;
+      gap: 30px;
     }
 
-    /* 左右のレールは列の最上部から最下部まで続く */
+    /* フィルムの穴 */
     .film-column::before,
     .film-column::after {
       content: "";
       position: absolute;
-      z-index: 2;
-      top: 0;
-      bottom: 0;
-      width: 27px;
-      background-color: var(--film);
-
-      /* 角丸の横長の穴を縦方向に繰り返す */
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='27' height='46' viewBox='0 0 27 46'%3E%3Crect x='6' y='17' width='15' height='11' rx='3' fill='%23D1D0CE'/%3E%3C/svg%3E");
-      background-repeat: repeat-y;
-      background-position: center top;
+      top: 12px;
+      bottom: 12px;
+      width: 9px;
+      background-image: repeating-linear-gradient(
+        to bottom,
+        var(--hole) 0,
+        var(--hole) 15px,
+        transparent 15px,
+        transparent 25px
+      );
+      pointer-events: none;
     }
 
     .film-column::before {
-      left: 0;
+      left: 6px;
     }
 
     .film-column::after {
-      right: 0;
+      right: 6px;
     }
 
-    /* キャラクターカード：上下の余白でフィルムを分断しない */
     .character-card {
-      position: relative;
-      padding: 18px 0 20px;
-      margin: 0;
-      background: var(--film);
-      text-align: center;
+      width: 100%;
+      min-width: 0;
+      color: var(--label);
     }
 
-    .character-card + .character-card {
-      border-top: 1px solid rgba(209, 208, 206, 0.25);
+    .character-image-wrap {
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      overflow: hidden;
+      background: #C9C6C4;
     }
 
-    /* 画像は縦3:4 */
-    .portrait {
+    .character-image {
       display: block;
       width: 100%;
-      aspect-ratio: 3 / 4;
+      height: 100%;
       object-fit: cover;
-      background: #514247;
+      transition: transform 0.35s ease;
     }
 
-    /* 画像未設定時のプレースホルダー */
-    .portrait-placeholder {
+    .character-card:hover .character-image {
+      transform: scale(1.025);
+    }
+
+    .character-info {
       display: flex;
       align-items: center;
-      justify-content: center;
-      width: 100%;
-      aspect-ratio: 3 / 4;
-      background:
-        linear-gradient(145deg, #74636A, #403238 65%, #2E2428);
-      color: #D1D0CE;
-      font-size: 11px;
-      letter-spacing: 0.15em;
+      justify-content: space-between;
+      gap: 8px;
+      padding-top: 12px;
     }
 
     .character-name {
-      margin: 14px 2px 9px;
-      color: #F0EDEA;
-      font-size: clamp(12px, 1.8vw, 16px);
-      font-weight: 400;
-      letter-spacing: 0.1em;
+      min-width: 0;
+      margin: 0;
       overflow-wrap: anywhere;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(13px, 2vw, 18px);
+      font-weight: 400;
+      letter-spacing: 0.04em;
     }
 
-    .gender-label {
-      display: inline-block;
-      padding: 3px 10px;
-      border: 1px solid rgba(209, 208, 206, 0.6);
-      color: var(--holes);
-      font-family: sans-serif;
+    .character-gender {
+      flex-shrink: 0;
+      padding: 4px 8px;
+      border: 1px solid rgba(233, 232, 230, 0.7);
+      color: var(--label);
       font-size: 9px;
-      letter-spacing: 0.12em;
+      letter-spacing: 0.08em;
     }
 
     .empty-message {
       grid-column: 1 / -1;
-      padding: 50px 10px;
+      padding: 60px 20px;
       text-align: center;
       font-size: 12px;
       letter-spacing: 0.1em;
     }
 
-    .site-footer {
-      padding: 0 20px 36px;
+    footer {
+      padding: 20px;
       text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
       font-size: 10px;
-      letter-spacing: 0.18em;
+      letter-spacing: 0.2em;
+      opacity: 0.7;
     }
 
-    /* スマートフォン */
-    @media (max-width: 480px) {
-      .site-header {
-        padding-top: 36px;
+    @media (max-width: 520px) {
+      header {
+        padding-top: 34px;
+      }
+
+      main {
+        padding-right: 12px;
+        padding-left: 12px;
       }
 
       .gallery {
-        width: calc(100% - 16px);
-        gap: 8px;
+        gap: 10px;
       }
 
       .film-column {
-        padding-right: 20px;
-        padding-left: 20px;
+        padding: 18px 15px;
+        gap: 22px;
+      }
+
+      .film-column::before {
+        left: 4px;
+      }
+
+      .film-column::after {
+        right: 4px;
       }
 
       .film-column::before,
       .film-column::after {
-        width: 20px;
-        background-size: 20px 46px;
+        width: 6px;
       }
 
-      .character-card {
-        padding-top: 12px;
-        padding-bottom: 14px;
+      .character-info {
+        align-items: flex-start;
+        flex-direction: column;
+        gap: 7px;
       }
 
       .character-name {
-        letter-spacing: 0.04em;
+        font-size: 13px;
       }
     }
   </style>
 </head>
 
 <body>
-  <header class="site-header">
+  <header>
     <h1 class="site-title">LUMIÈRE ARCHIVE</h1>
-    <p class="site-subtitle">ORIGINAL CHARACTER ARCHIVE</p>
+    <div class="site-subtitle">CHARACTER COLLECTION</div>
   </header>
 
   <nav class="filters" aria-label="キャラクターの絞り込み">
-    <button class="filter-button active" data-filter="ALL">
-      ALL
-    </button>
-    <button class="filter-button" data-filter="OC">
-      OC
-    </button>
-    <button class="filter-button" data-filter="OUR WORLDS">
-      OUR WORLDS
-    </button>
+    <button class="filter-button active" data-filter="ALL">ALL</button>
+    <button class="filter-button" data-filter="OC">OC</button>
+    <button class="filter-button" data-filter="OUR WORLD">OUR WORLDS</button>
   </nav>
 
   <main>
-    <section
-      class="gallery"
-      id="gallery"
-      aria-label="キャラクター一覧"
-    ></section>
+    <div class="gallery" id="gallery"></div>
   </main>
 
-  <footer class="site-footer">
-    LUMIÈRE ARCHIVE · EST. 2026
-  </footer>
+  <footer> LUMIÈRE ARCHIVE </footer>
 
   <script>
     /*
-      キャラクターを追加するときは、この配列に1件追加するだけ。
-      image: 画像ファイルのパス
-      category: "OC" または "OUR WORLDS"
-      gender: 性別ラベル
+      キャラクターを追加するときは、この一覧に書き足してください。
+
+      name     : キャラクター名
+      image    : 画像ファイルのパス
+      category : "OC" または "OUR WORLD"
+      gender   : 性別ラベル（自由に変更できます）
+
+      画像は images フォルダに入れてください。
     */
+
     const characters = [
       {
         name: "CHARACTER 01",
@@ -267,7 +281,7 @@
       {
         name: "CHARACTER 02",
         image: "images/character-02.jpg",
-        category: "OUR WORLDS",
+        category: "OUR WORLD",
         gender: "FEMALE"
       },
       {
@@ -279,26 +293,8 @@
       {
         name: "CHARACTER 04",
         image: "images/character-04.jpg",
-        category: "OUR WORLDS",
+        category: "OUR WORLD",
         gender: "OTHER"
-      },
-      {
-        name: "CHARACTER 05",
-        image: "images/character-05.jpg",
-        category: "OC",
-        gender: "FEMALE"
-      },
-      {
-        name: "CHARACTER 06",
-        image: "images/character-06.jpg",
-        category: "OC",
-        gender: "MALE"
-      },
-      {
-        name: "CHARACTER 07",
-        image: "images/character-07.jpg",
-        category: "OUR WORLDS",
-        gender: "FEMALE"
       }
     ];
 
@@ -311,73 +307,76 @@
       const card = document.createElement("article");
       card.className = "character-card";
 
+      const imageWrap = document.createElement("div");
+      imageWrap.className = "character-image-wrap";
+
       const image = document.createElement("img");
-      image.className = "portrait";
+      image.className = "character-image";
       image.src = character.image;
       image.alt = character.name;
       image.loading = "lazy";
 
-      /* 画像が見つからない場合は仮表示にする */
-      image.addEventListener("error", () => {
-        const placeholder = document.createElement("div");
-        placeholder.className = "portrait-placeholder";
-        placeholder.textContent = "PORTRAIT";
-        image.replaceWith(placeholder);
-      }, { once: true });
+      imageWrap.appendChild(image);
+
+      const info = document.createElement("div");
+      info.className = "character-info";
 
       const name = document.createElement("h2");
       name.className = "character-name";
       name.textContent = character.name;
 
       const gender = document.createElement("span");
-      gender.className = "gender-label";
+      gender.className = "character-gender";
       gender.textContent = character.gender;
 
-      card.append(image, name, gender);
+      info.append(name, gender);
+      card.append(imageWrap, info);
+
       return card;
     }
 
     function renderGallery() {
-      const filtered = characters.filter(character =>
-        currentFilter === "ALL" ||
-        character.category === currentFilter
-      );
-
       gallery.replaceChildren();
+      gallery.classList.remove("single-column");
+
+      const filtered = characters.filter(character => {
+        return currentFilter === "ALL" ||
+               character.category === currentFilter;
+      });
 
       if (filtered.length === 0) {
-        const message = document.createElement("p");
+        const message = document.createElement("div");
         message.className = "empty-message";
         message.textContent = "NO CHARACTERS";
         gallery.appendChild(message);
         return;
       }
 
-      /*
-        表示対象を2列に振り分ける。
-        片方の列が長くなっても、レールは列全体の高さに追従する。
-      */
       const leftColumn = document.createElement("div");
       leftColumn.className = "film-column";
 
       const rightColumn = document.createElement("div");
       rightColumn.className = "film-column";
 
-      const splitAt = Math.ceil(filtered.length / 2);
+      filtered.forEach((character, index) => {
+        const card = createCharacterCard(character);
 
-      filtered.slice(0, splitAt).forEach(character => {
-        leftColumn.appendChild(createCharacterCard(character));
+        if (index % 2 === 0) {
+          leftColumn.appendChild(card);
+        } else {
+          rightColumn.appendChild(card);
+        }
       });
 
-      filtered.slice(splitAt).forEach(character => {
-        rightColumn.appendChild(createCharacterCard(character));
-      });
-
-      gallery.append(leftColumn, rightColumn);
-
-      /* 1人だけの場合も2列レイアウトを維持 */
+      /*
+        1人だけの場合は左列だけ表示。
+        2人以上の場合は左右の列を表示。
+      */
       if (filtered.length === 1) {
-        rightColumn.style.visibility = "hidden";
+        gallery.classList.add("single-column");
+        gallery.appendChild(leftColumn);
+      } else {
+        gallery.append(leftColumn, rightColumn);
       }
     }
 
@@ -386,18 +385,11 @@
         currentFilter = button.dataset.filter;
 
         filterButtons.forEach(item => {
-          const active = item === button;
-          item.classList.toggle("active", active);
-          item.setAttribute("aria-pressed", String(active));
+          item.classList.toggle("active", item === button);
         });
 
         renderGallery();
       });
-
-      button.setAttribute(
-        "aria-pressed",
-        String(button.dataset.filter === "ALL")
-      );
     });
 
     renderGallery();
