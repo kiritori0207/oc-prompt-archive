@@ -4,886 +4,403 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#f2f4f7">
-  <title>Characters | LUMIÈRE ARCHIVE</title>
+  <title>LUMIÈRE ARCHIVE</title>
 
   <style>
     :root {
-      --paper: #f2f4f7;
       --film: #362629;
-      --film-dark: #292022;
-      --hole: #d1d0ce;
-      --ink: #343039;
-      --muted: #85818a;
-      --pink: #e8a8c9;
-      --cyan: #9adce6;
+      --holes: #D1D0CE;
+      --page: #E9E8E6;
+      --text: #362629;
     }
 
     * {
       box-sizing: border-box;
     }
 
-    html {
-      scroll-behavior: smooth;
-    }
-
     body {
       margin: 0;
-      background: var(--paper);
-      color: var(--ink);
-      font-family:
-        "Helvetica Neue",
-        "Hiragino Kaku Gothic ProN",
-        "Yu Gothic",
-        sans-serif;
+      background: var(--page);
+      color: var(--text);
+      font-family: Georgia, "Times New Roman", serif;
     }
 
-    button,
-    input {
-      font: inherit;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    /* Header */
-
+    /* ヘッダー */
     .site-header {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 30px 6% 24px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 20px;
-      border-bottom: 1px solid #d9dce3;
+      padding: 48px 24px 36px;
+      text-align: center;
     }
 
-    .logo {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(18px, 3vw, 25px);
-      letter-spacing: .12em;
-      font-weight: 400;
-    }
-
-    .home-link {
-      font-size: 11px;
-      letter-spacing: .14em;
-      color: #777782;
-      transition: color .2s;
-      white-space: nowrap;
-    }
-
-    .home-link:hover {
-      color: #bd779d;
-    }
-
-    /* Intro */
-
-    .intro {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 65px 6% 35px;
-    }
-
-    .eyebrow {
-      margin: 0 0 12px;
-      color: #b27d9a;
-      font-size: 10px;
-      letter-spacing: .28em;
-      text-transform: uppercase;
-    }
-
-    .intro h1 {
+    .site-title {
       margin: 0;
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(38px, 7vw, 70px);
+      font-size: clamp(26px, 5vw, 46px);
       font-weight: 400;
-      letter-spacing: .045em;
-      line-height: 1.1;
+      letter-spacing: 0.16em;
     }
 
-    .intro-description {
-      margin: 20px 0 0;
-      max-width: 540px;
-      color: #777985;
-      font-size: 12px;
-      line-height: 2.1;
-      letter-spacing: .04em;
-    }
-
-    /* Search and controls */
-
-    .toolbar {
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 0 6% 35px;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 18px;
-    }
-
-    .search-wrap {
-      position: relative;
-      width: min(100%, 350px);
-    }
-
-    .search-wrap::before {
-      content: "";
-      position: absolute;
-      left: 14px;
-      top: 50%;
-      width: 11px;
-      height: 11px;
-      border: 1px solid #85818a;
-      border-radius: 50%;
-      transform: translateY(-60%);
-      pointer-events: none;
-    }
-
-    .search-wrap::after {
-      content: "";
-      position: absolute;
-      left: 25px;
-      top: 55%;
-      width: 5px;
-      height: 1px;
-      background: #85818a;
-      transform: rotate(45deg);
-      pointer-events: none;
-    }
-
-    .search-input {
-      width: 100%;
-      padding: 13px 14px 13px 38px;
-      background: #ffffff80;
-      border: 1px solid #d9dce3;
-      border-radius: 0;
-      outline: none;
-      font-size: 12px;
-      color: var(--ink);
-      transition: border-color .2s;
-    }
-
-    .search-input:focus {
-      border-color: #bd91aa;
-    }
-
-    .search-input::placeholder {
-      color: #9999a2;
-    }
-
-    .add-button {
-      padding: 13px 18px;
-      border: 1px solid var(--film);
-      background: var(--film);
-      color: #fff;
+    .site-subtitle {
+      margin: 12px 0 0;
+      font-family: sans-serif;
       font-size: 10px;
-      letter-spacing: .12em;
-      cursor: pointer;
-      transition: background .2s, color .2s;
-      white-space: nowrap;
+      letter-spacing: 0.28em;
     }
 
-    .add-button:hover {
+    /* フィルター */
+    .filters {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 10px 24px;
+      padding: 0 16px 36px;
+    }
+
+    .filter-button {
+      padding: 7px 0;
+      border: 0;
+      border-bottom: 1px solid transparent;
       background: transparent;
-      color: var(--film);
+      color: var(--text);
+      font-family: inherit;
+      font-size: 11px;
+      letter-spacing: 0.12em;
+      cursor: pointer;
     }
 
-    /* Gallery */
-
-    .gallery-section {
-      max-width: 1000px;
-      margin: 0 auto;
-      padding: 0 6% 80px;
+    .filter-button:hover,
+    .filter-button.active {
+      border-bottom-color: var(--text);
     }
 
-    .gallery-heading {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 15px;
-      margin-bottom: 22px;
-      color: var(--muted);
-      font-size: 10px;
-      letter-spacing: .18em;
-    }
-
-    .gallery-heading .count {
-      font-variant-numeric: tabular-nums;
-      letter-spacing: .1em;
-    }
-
-    .film-gallery {
+    /* 2列レイアウト */
+    .gallery {
       display: grid;
       grid-template-columns: repeat(2, minmax(0, 1fr));
-      gap: clamp(12px, 2.5vw, 24px);
-      align-items: start;
+      gap: 12px;
+      width: min(100% - 24px, 900px);
+      margin: 0 auto 60px;
+      align-items: stretch;
     }
 
-    /* Continuous film strips */
-
-    .film-strip {
-      min-width: 0;
+    /* 各列のフィルム。列全体で1本につながる */
+    .film-column {
       position: relative;
-      display: grid;
-      grid-template-columns: clamp(23px, 4vw, 36px) minmax(0, 1fr) clamp(23px, 4vw, 36px);
-      padding: 5px 0;
+      min-width: 0;
+      align-self: stretch;
+      padding: 0 27px;
       overflow: hidden;
-      isolation: isolate;
-
-      background-color: var(--film);
-      background-image:
-        repeating-linear-gradient(
-          112deg,
-          transparent 0 22px,
-          #a58c8c22 22.5px,
-          transparent 23px 39px
-        ),
-        repeating-linear-gradient(
-          7deg,
-          transparent 0 34px,
-          #17101245 35px,
-          transparent 36px 57px
-        ),
-        repeating-linear-gradient(
-          0deg,
-          transparent 0 5px,
-          #e5d6d612 5.5px,
-          transparent 6px 9px
-        ),
-        radial-gradient(
-          ellipse at 15% 22%,
-          #72585b50,
-          transparent 40%
-        ),
-        radial-gradient(
-          ellipse at 88% 70%,
-          #1d141755,
-          transparent 45%
-        );
-
-      box-shadow:
-        inset 1px 0 2px #d5bfc018,
-        inset -2px 0 4px #160f1155,
-        0 8px 18px #36262925;
-    }
-
-    /* Film texture and scratches */
-
-    .film-strip::after {
-      content: "";
-      position: absolute;
-      z-index: 4;
-      inset: 0;
-      pointer-events: none;
-      opacity: .75;
-
-      background-image:
-        repeating-linear-gradient(
-          103deg,
-          transparent 0 37px,
-          #d5c3c32b 37.5px,
-          transparent 38.5px 79px
-        ),
-        repeating-linear-gradient(
-          171deg,
-          transparent 0 63px,
-          #120d103b 64px,
-          transparent 65px 107px
-        ),
-        radial-gradient(
-          ellipse at 2% 28%,
-          #b9a1a13b,
-          transparent 18%
-        ),
-        radial-gradient(
-          ellipse at 98% 76%,
-          #c0a4a42b,
-          transparent 16%
-        );
-
-      mix-blend-mode: screen;
-    }
-
-    /* Sprocket holes */
-
-    .film-rail {
-      position: relative;
-      z-index: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: space-around;
-      gap: 3px;
-      min-width: 0;
-      padding: 4px 0;
-
-      background-image:
-        repeating-linear-gradient(
-          113deg,
-          transparent 0 19px,
-          #bba5a51c 20px,
-          transparent 21px 37px
-        ),
-        linear-gradient(
-          90deg,
-          #302124,
-          #483235 50%,
-          #302124
-        );
-    }
-
-    .film-hole {
-      display: block;
-      flex: 0 0 10px;
-      width: 20px;
-      max-width: calc(100% - 5px);
-      height: 10px;
-      border-radius: 3px;
-
-      background: var(--hole);
-
-      box-shadow:
-        0 0 0 1.5px var(--film),
-        inset 0 1px 1px #f2efec80;
-    }
-
-    /* Photo frames */
-
-    .film-inner {
-      position: relative;
-      z-index: 1;
-      min-width: 0;
       background: var(--film);
     }
 
-    .film-frame {
-      position: relative;
-      margin: 0 0 12px;
-      padding: 0 0 12px;
-
-      border-bottom: 5px solid var(--film-dark);
-      box-shadow: 0 1px 0 #72595b;
-    }
-
-    .film-frame:last-child {
-      margin-bottom: 0;
-      padding-bottom: 0;
-      border-bottom: 0;
-      box-shadow: none;
-    }
-
-    .character-photo {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 4 / 3;
-      overflow: hidden;
-      background: #75647d;
-      isolation: isolate;
-    }
-
-    .character-photo img {
-      position: absolute;
-      inset: 0;
-      display: block;
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      object-position: center;
-      z-index: 0;
-    }
-
-    /* Temporary placeholders until images are added */
-
-    .placeholder {
-      background:
-        repeating-linear-gradient(
-          0deg,
-          transparent 0 3px,
-          #ffffff12 4px,
-          transparent 5px 7px
-        ),
-        linear-gradient(
-          135deg,
-          #62506d,
-          #c889b2 53%,
-          #798ba9
-        );
-    }
-
-    .placeholder.pink {
-      background:
-        repeating-linear-gradient(
-          0deg,
-          transparent 0 3px,
-          #ffffff12 4px,
-          transparent 5px 7px
-        ),
-        linear-gradient(135deg, #795467, #ca91a8 53%, #8b93ac);
-    }
-
-    .placeholder.blue {
-      background:
-        repeating-linear-gradient(
-          0deg,
-          transparent 0 3px,
-          #ffffff12 4px,
-          transparent 5px 7px
-        ),
-        linear-gradient(135deg, #345a68, #77b8c0 53%, #7787a2);
-    }
-
-    .placeholder.lavender {
-      background:
-        repeating-linear-gradient(
-          0deg,
-          transparent 0 3px,
-          #ffffff12 4px,
-          transparent 5px 7px
-        ),
-        linear-gradient(135deg, #735778, #bd9bc7 53%, #8294b0);
-    }
-
-    /* Photo grain */
-
-    .character-photo::after {
+    /* 左右のレールは列の最上部から最下部まで続く */
+    .film-column::before,
+    .film-column::after {
       content: "";
       position: absolute;
-      z-index: 1;
-      inset: 0;
-      pointer-events: none;
+      z-index: 2;
+      top: 0;
+      bottom: 0;
+      width: 27px;
+      background-color: var(--film);
 
-      background-image:
-        repeating-linear-gradient(
-          0deg,
-          transparent 0 3px,
-          #ffffff18 4px,
-          transparent 5px 7px
-        ),
-        radial-gradient(
-          ellipse at 20% 70%,
-          #17152155,
-          transparent 60%
-        );
+      /* 角丸の横長の穴を縦方向に繰り返す */
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='27' height='46' viewBox='0 0 27 46'%3E%3Crect x='6' y='17' width='15' height='11' rx='3' fill='%23D1D0CE'/%3E%3C/svg%3E");
+      background-repeat: repeat-y;
+      background-position: center top;
     }
 
-    /* Fashion editorial typography */
+    .film-column::before {
+      left: 0;
+    }
+
+    .film-column::after {
+      right: 0;
+    }
+
+    /* キャラクターカード：上下の余白でフィルムを分断しない */
+    .character-card {
+      position: relative;
+      padding: 18px 0 20px;
+      margin: 0;
+      background: var(--film);
+      text-align: center;
+    }
+
+    .character-card + .character-card {
+      border-top: 1px solid rgba(209, 208, 206, 0.25);
+    }
+
+    /* 画像は縦3:4 */
+    .portrait {
+      display: block;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      object-fit: cover;
+      background: #514247;
+    }
+
+    /* 画像未設定時のプレースホルダー */
+    .portrait-placeholder {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background:
+        linear-gradient(145deg, #74636A, #403238 65%, #2E2428);
+      color: #D1D0CE;
+      font-size: 11px;
+      letter-spacing: 0.15em;
+    }
 
     .character-name {
-      position: absolute;
-      z-index: 2;
-      left: 5px;
-      right: 3px;
-      bottom: 7px;
-
-      margin: 0;
-      color: #fff;
-
-      font-family:
-        "Helvetica Neue",
-        "Arial Narrow",
-        sans-serif;
-      font-size: clamp(13px, 2.5vw, 26px);
-      font-weight: 300;
-      letter-spacing: .035em;
-      line-height: 1.05;
+      margin: 14px 2px 9px;
+      color: #F0EDEA;
+      font-size: clamp(12px, 1.8vw, 16px);
+      font-weight: 400;
+      letter-spacing: 0.1em;
       overflow-wrap: anywhere;
-
-      text-shadow:
-        2px 0 var(--pink),
-        -1px 0 var(--cyan),
-        0 2px 5px #1b1724;
     }
 
-    .character-meta {
-      padding: 9px 4px 0;
-      color: #e2d5d7;
-      font-size: 10px;
-      line-height: 1.8;
-      letter-spacing: .035em;
-    }
-
-    .character-description {
-      margin: 0;
-    }
-
-    .character-tags {
-      margin-top: 5px;
-      color: #c5afb6;
+    .gender-label {
+      display: inline-block;
+      padding: 3px 10px;
+      border: 1px solid rgba(209, 208, 206, 0.6);
+      color: var(--holes);
+      font-family: sans-serif;
       font-size: 9px;
-      letter-spacing: .06em;
-      overflow-wrap: anywhere;
+      letter-spacing: 0.12em;
     }
 
     .empty-message {
       grid-column: 1 / -1;
-      padding: 45px 12px;
+      padding: 50px 10px;
       text-align: center;
-      color: var(--muted);
       font-size: 12px;
-      line-height: 2;
+      letter-spacing: 0.1em;
     }
-
-    /* Footer */
 
     .site-footer {
-      padding: 25px 6%;
-      border-top: 1px solid #d9dce3;
+      padding: 0 20px 36px;
       text-align: center;
-      color: #85818a;
-      font-family: Georgia, "Times New Roman", serif;
       font-size: 10px;
-      letter-spacing: .18em;
+      letter-spacing: 0.18em;
     }
 
-    @media (min-width: 900px) {
-      .gallery-section {
-        max-width: 900px;
-      }
-
-      .film-gallery {
-        gap: 28px;
-      }
-    }
-
-    @media (max-width: 520px) {
+    /* スマートフォン */
+    @media (max-width: 480px) {
       .site-header {
-        padding: 23px 5%;
+        padding-top: 36px;
       }
 
-      .logo {
-        font-size: 16px;
+      .gallery {
+        width: calc(100% - 16px);
+        gap: 8px;
       }
 
-      .intro {
-        padding: 48px 5% 28px;
+      .film-column {
+        padding-right: 20px;
+        padding-left: 20px;
       }
 
-      .toolbar {
-        padding: 0 5% 28px;
-        flex-direction: column;
-        align-items: stretch;
+      .film-column::before,
+      .film-column::after {
+        width: 20px;
+        background-size: 20px 46px;
       }
 
-      .search-wrap {
-        width: 100%;
-      }
-
-      .add-button {
-        width: 100%;
-      }
-
-      .gallery-section {
-        padding: 0 4% 55px;
-      }
-
-      .film-gallery {
-        gap: 9px;
-      }
-
-      .film-strip {
-        grid-template-columns: 21px minmax(0, 1fr) 21px;
-      }
-
-      .film-hole {
-        width: 15px;
-        height: 8px;
-        flex-basis: 8px;
-      }
-
-      .film-frame {
-        margin-bottom: 8px;
-        padding-bottom: 8px;
-        border-bottom-width: 4px;
+      .character-card {
+        padding-top: 12px;
+        padding-bottom: 14px;
       }
 
       .character-name {
-        left: 4px;
-        bottom: 5px;
-        font-size: clamp(11px, 3vw, 16px);
-      }
-
-      .character-meta {
-        padding: 7px 2px 0;
-        font-size: 9px;
+        letter-spacing: 0.04em;
       }
     }
   </style>
 </head>
 
 <body>
-
   <header class="site-header">
-    <a class="logo" href="index.html">LUMIÈRE ARCHIVE</a>
-    <a class="home-link" href="index.html">← BACK TO HOME</a>
+    <h1 class="site-title">LUMIÈRE ARCHIVE</h1>
+    <p class="site-subtitle">ORIGINAL CHARACTER ARCHIVE</p>
   </header>
 
+  <nav class="filters" aria-label="キャラクターの絞り込み">
+    <button class="filter-button active" data-filter="ALL">
+      ALL
+    </button>
+    <button class="filter-button" data-filter="OC">
+      OC
+    </button>
+    <button class="filter-button" data-filter="OUR WORLDS">
+      OUR WORLDS
+    </button>
+  </nav>
+
   <main>
-    <section class="intro">
-      <p class="eyebrow">Original Characters / Collection</p>
-      <h1>Characters</h1>
-      <p class="intro-description">
-        創作キャラクターの記録とアーカイブ。<br>
-        ひとりひとりの物語を、フィルムのように残していく。
-      </p>
-    </section>
-
-    <section class="toolbar" aria-label="キャラクター操作">
-      <div class="search-wrap">
-        <input
-          id="character-search"
-          class="search-input"
-          type="search"
-          placeholder="キャラクター名・説明・タグで検索"
-          aria-label="キャラクターを検索"
-        >
-      </div>
-
-      <button class="add-button" id="add-character" type="button">
-        ＋ ADD CHARACTER
-      </button>
-    </section>
-
-    <section class="gallery-section">
-      <div class="gallery-heading">
-        <span>35MM CHARACTER ARCHIVE</span>
-        <span class="count" id="character-count">06 CHARACTERS</span>
-      </div>
-
-      <div class="film-gallery" id="film-gallery">
-
-        <!-- Character 1 -->
-        <div class="film-strip">
-          <div class="film-rail" aria-hidden="true"></div>
-          <div class="film-inner">
-            <article class="film-frame character-entry"
-              data-name="MOMIJI"
-              data-description="ピンクレッドの髪を持つ天使の少年。"
-              data-tags="天使 少年 ピンク">
-              <div class="character-photo placeholder">
-                <h2 class="character-name">MOMIJI</h2>
-              </div>
-              <div class="character-meta">
-                <p class="character-description">ピンクレッドの髪を持つ天使の少年。</p>
-                <div class="character-tags">#天使　#少年　#ピンク</div>
-              </div>
-            </article>
-
-            <!-- Character 2 -->
-            <article class="film-frame character-entry"
-              data-name="HEON"
-              data-description="静かな雰囲気をまとった狐の獣人パイロット。"
-              data-tags="狐 獣人 パイロット">
-              <div class="character-photo placeholder blue">
-                <h2 class="character-name">HEON</h2>
-              </div>
-              <div class="character-meta">
-                <p class="character-description">静かな雰囲気をまとった狐の獣人パイロット。</p>
-                <div class="character-tags">#狐　#獣人　#パイロット</div>
-              </div>
-            </article>
-
-            <!-- Character 3 -->
-            <article class="film-frame character-entry"
-              data-name="LUMIÈRE"
-              data-description="光と記憶をテーマにしたキャラクター。"
-              data-tags="光 記憶 オリジナル">
-              <div class="character-photo placeholder lavender">
-                <h2 class="character-name">LUMIÈRE</h2>
-              </div>
-              <div class="character-meta">
-                <p class="character-description">光と記憶をテーマにしたキャラクター。</p>
-                <div class="character-tags">#光　#記憶　#オリジナル</div>
-              </div>
-            </article>
-          </div>
-          <div class="film-rail" aria-hidden="true"></div>
-        </div>
-
-        <!-- Second continuous film strip -->
-        <div class="film-strip">
-          <div class="film-rail" aria-hidden="true"></div>
-          <div class="film-inner">
-
-            <!-- Character 4 -->
-            <article class="film-frame character-entry"
-              data-name="NOCTURNE"
-              data-description="夜の静けさをイメージしたキャラクター。"
-              data-tags="夜 ダーク オリジナル">
-              <div class="character-photo placeholder pink">
-                <h2 class="character-name">NOCTURNE</h2>
-              </div>
-              <div class="character-meta">
-                <p class="character-description">夜の静けさをイメージしたキャラクター。</p>
-                <div class="character-tags">#夜　#ダーク　#オリジナル</div>
-              </div>
-            </article>
-
-            <!-- Character 5 -->
-            <article class="film-frame character-entry"
-              data-name="ANGEL"
-              data-description="透明感のある雰囲気を持つキャラクター。"
-              data-tags="天使 透明感 オリジナル">
-              <div class="character-photo placeholder lavender">
-                <h2 class="character-name">ANGEL</h2>
-              </div>
-              <div class="character-meta">
-                <p class="character-description">透明感のある雰囲気を持つキャラクター。</p>
-                <div class="character-tags">#天使　#透明感　#オリジナル</div>
-              </div>
-            </article>
-
-            <!-- Character 6 -->
-            <article class="film-frame character-entry"
-              data-name="MEMORY"
-              data-description="忘れられない記憶をモチーフにしたキャラクター。"
-              data-tags="記憶 物語 オリジナル">
-              <div class="character-photo placeholder blue">
-                <h2 class="character-name">MEMORY</h2>
-              </div>
-              <div class="character-meta">
-                <p class="character-description">忘れられない記憶をモチーフにしたキャラクター。</p>
-                <div class="character-tags">#記憶　#物語　#オリジナル</div>
-              </div>
-            </article>
-
-          </div>
-          <div class="film-rail" aria-hidden="true"></div>
-        </div>
-
-      </div>
-    </section>
+    <section
+      class="gallery"
+      id="gallery"
+      aria-label="キャラクター一覧"
+    ></section>
   </main>
 
   <footer class="site-footer">
-    LUMIÈRE ARCHIVE · ORIGINAL CHARACTER COLLECTION
+    LUMIÈRE ARCHIVE · EST. 2026
   </footer>
 
   <script>
-    const gallery = document.getElementById("film-gallery");
-    const searchInput = document.getElementById("character-search");
-    const addButton = document.getElementById("add-character");
-    const countLabel = document.getElementById("character-count");
+    /*
+      キャラクターを追加するときは、この配列に1件追加するだけ。
+      image: 画像ファイルのパス
+      category: "OC" または "OUR WORLDS"
+      gender: 性別ラベル
+    */
+    const characters = [
+      {
+        name: "CHARACTER 01",
+        image: "images/character-01.jpg",
+        category: "OC",
+        gender: "MALE"
+      },
+      {
+        name: "CHARACTER 02",
+        image: "images/character-02.jpg",
+        category: "OUR WORLDS",
+        gender: "FEMALE"
+      },
+      {
+        name: "CHARACTER 03",
+        image: "images/character-03.jpg",
+        category: "OC",
+        gender: "MALE"
+      },
+      {
+        name: "CHARACTER 04",
+        image: "images/character-04.jpg",
+        category: "OUR WORLDS",
+        gender: "OTHER"
+      },
+      {
+        name: "CHARACTER 05",
+        image: "images/character-05.jpg",
+        category: "OC",
+        gender: "FEMALE"
+      },
+      {
+        name: "CHARACTER 06",
+        image: "images/character-06.jpg",
+        category: "OC",
+        gender: "MALE"
+      },
+      {
+        name: "CHARACTER 07",
+        image: "images/character-07.jpg",
+        category: "OUR WORLDS",
+        gender: "FEMALE"
+      }
+    ];
 
-    // Generate rounded, horizontal sprocket holes.
-    function createFilmHoles() {
-      document.querySelectorAll(".film-rail").forEach((rail) => {
-        rail.replaceChildren();
+    const gallery = document.getElementById("gallery");
+    const filterButtons = document.querySelectorAll(".filter-button");
 
-        const numberOfHoles = Math.max(
-          8,
-          Math.ceil(rail.parentElement.scrollHeight / 25)
-        );
+    let currentFilter = "ALL";
 
-        for (let i = 0; i < numberOfHoles; i++) {
-          const hole = document.createElement("span");
-          hole.className = "film-hole";
-          rail.appendChild(hole);
-        }
-      });
+    function createCharacterCard(character) {
+      const card = document.createElement("article");
+      card.className = "character-card";
+
+      const image = document.createElement("img");
+      image.className = "portrait";
+      image.src = character.image;
+      image.alt = character.name;
+      image.loading = "lazy";
+
+      /* 画像が見つからない場合は仮表示にする */
+      image.addEventListener("error", () => {
+        const placeholder = document.createElement("div");
+        placeholder.className = "portrait-placeholder";
+        placeholder.textContent = "PORTRAIT";
+        image.replaceWith(placeholder);
+      }, { once: true });
+
+      const name = document.createElement("h2");
+      name.className = "character-name";
+      name.textContent = character.name;
+
+      const gender = document.createElement("span");
+      gender.className = "gender-label";
+      gender.textContent = character.gender;
+
+      card.append(image, name, gender);
+      return card;
     }
 
-    // Filter by name, description, and tags.
-    function filterCharacters() {
-      const query = searchInput.value.trim().toLocaleLowerCase();
-      const entries = [...document.querySelectorAll(".character-entry")];
-      let visibleCount = 0;
+    function renderGallery() {
+      const filtered = characters.filter(character =>
+        currentFilter === "ALL" ||
+        character.category === currentFilter
+      );
 
-      entries.forEach((entry) => {
-        const searchableText = [
-          entry.dataset.name,
-          entry.dataset.description,
-          entry.dataset.tags,
-          entry.textContent
-        ].join(" ").toLocaleLowerCase();
+      gallery.replaceChildren();
 
-        const matches = searchableText.includes(query);
-        entry.hidden = !matches;
+      if (filtered.length === 0) {
+        const message = document.createElement("p");
+        message.className = "empty-message";
+        message.textContent = "NO CHARACTERS";
+        gallery.appendChild(message);
+        return;
+      }
 
-        if (matches) visibleCount++;
+      /*
+        表示対象を2列に振り分ける。
+        片方の列が長くなっても、レールは列全体の高さに追従する。
+      */
+      const leftColumn = document.createElement("div");
+      leftColumn.className = "film-column";
+
+      const rightColumn = document.createElement("div");
+      rightColumn.className = "film-column";
+
+      const splitAt = Math.ceil(filtered.length / 2);
+
+      filtered.slice(0, splitAt).forEach(character => {
+        leftColumn.appendChild(createCharacterCard(character));
       });
 
-      document.querySelectorAll(".film-strip").forEach((strip) => {
-        const visibleEntries = strip.querySelectorAll(
-          ".character-entry:not([hidden])"
-        );
-        strip.hidden = visibleEntries.length === 0;
+      filtered.slice(splitAt).forEach(character => {
+        rightColumn.appendChild(createCharacterCard(character));
       });
 
-      countLabel.textContent =
-        String(visibleCount).padStart(2, "0") + " CHARACTERS";
+      gallery.append(leftColumn, rightColumn);
 
-      createFilmHoles();
+      /* 1人だけの場合も2列レイアウトを維持 */
+      if (filtered.length === 1) {
+        rightColumn.style.visibility = "hidden";
+      }
     }
 
-    searchInput.addEventListener("input", filterCharacters);
+    filterButtons.forEach(button => {
+      button.addEventListener("click", () => {
+        currentFilter = button.dataset.filter;
 
-    // Add a new character to the shorter film strip.
-    addButton.addEventListener("click", () => {
-      const name = prompt("キャラクター名を入力してね。");
-      if (!name || !name.trim()) return;
+        filterButtons.forEach(item => {
+          const active = item === button;
+          item.classList.toggle("active", active);
+          item.setAttribute("aria-pressed", String(active));
+        });
 
-      const description =
-        prompt("キャラクターの説明を入力してね。") || "";
+        renderGallery();
+      });
 
-      const tags =
-        prompt("タグを入力してね（例：天使、少年、ファンタジー）。") || "";
-
-      const strips = [...document.querySelectorAll(".film-strip")];
-      const targetStrip = strips
-        .sort((a, b) =>
-          a.querySelectorAll(".character-entry").length -
-          b.querySelectorAll(".character-entry").length
-        )[0];
-
-      const entry = document.createElement("article");
-      entry.className = "film-frame character-entry";
-      entry.dataset.name = name.trim();
-      entry.dataset.description = description.trim();
-      entry.dataset.tags = tags.trim();
-
-      const photo = document.createElement("div");
-      photo.className = "character-photo placeholder";
-
-      const title = document.createElement("h2");
-      title.className = "character-name";
-      title.textContent = name.trim();
-      photo.appendChild(title);
-
-      const meta = document.createElement("div");
-      meta.className = "character-meta";
-
-      const descriptionElement = document.createElement("p");
-      descriptionElement.className = "character-description";
-      descriptionElement.textContent = description.trim();
-
-      const tagsElement = document.createElement("div");
-      tagsElement.className = "character-tags";
-      tagsElement.textContent = tags.trim()
-        ? "# " + tags.trim().replace(/[、,，]/g, "　# ")
-        : "";
-
-      meta.append(descriptionElement, tagsElement);
-      entry.append(photo, meta);
-
-      const inner = targetStrip.querySelector(".film-inner");
-      inner.appendChild(entry);
-
-      searchInput.value = "";
-      filterCharacters();
-      createFilmHoles();
+      button.setAttribute(
+        "aria-pressed",
+        String(button.dataset.filter === "ALL")
+      );
     });
 
-    // Update hole count after layout changes.
-    window.addEventListener("resize", createFilmHoles);
-
-    createFilmHoles();
-    filterCharacters();
+    renderGallery();
   </script>
-
 </body>
 </html>
